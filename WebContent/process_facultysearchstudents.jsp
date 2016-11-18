@@ -1,3 +1,15 @@
+<!--
+
+ This program is the backend process of faculty searching students
+where all the database queries and setting of variables with data
+retrieved from the database will be done.
+
+@author Winnie Lew
+@version 1.0
+@since 2016-11-01 
+
+-->
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%> 
   <%@page import="java.sql.*" %>
@@ -5,6 +17,10 @@
  <%@page import= "com.sgs.util.DbUtil" %>
 <%@page import="java.util.*" %>
 
+
+<!-- 
+This is the retrieval of the parameters from the faculty_searchstudents.jsp file
+where the student name and the faculty's ID will be passed in. -->
   <%
   String student_name = request.getParameter("studentName"); 
   int foreign_key = Integer.parseInt(request.getParameter("foreignKey"));
@@ -12,9 +28,9 @@
   
   Connection con = DbUtil.getConnection();
   
+  
   ArrayList<Object[]> studentList = new ArrayList<Object[]>();
   if(student_name != null && student_name.length() > 0) {
-	  //PreparedStatement preparedStatement = con.prepareStatement("Select * from users where firstname LIKE ? ");
 	  PreparedStatement preparedStatement = con.prepareStatement("SELECT sgs.account.username, sgs.particulars.name, sgs.module.idMod, sgs.module.modName FROM sgs.module "
 				+ "JOIN sgs.enroll ON sgs.enroll.fk_enroll_mod = sgs.module.idMod " +
 				"JOIN sgs.account ON sgs.enroll.fk_enroll_acc = sgs.account.idAcc " +
