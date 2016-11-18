@@ -4,19 +4,31 @@
   <%@page import="java.sql.*" %>
     
   <%
+  	/* Description: The below block of codes uses the input from the user (Search terms) that was sanitized and executes it a WHERE condition
+  	* 				for the SQL query for retrieving the matching module information/details
+  	*   INPUT: Search terms (from the Search Module Info page)
+  	*	RETURNS: The module information from the Module table that matches the entered search terms (input) which will be passed to
+  	*		     the Search Module Info page to display the details.
+  	*/
+  	//String variable that stores the sanitized value of the search terms to query the module for 
   	final String searchModuleTerms = sanitizeInput(request.getParameter("searchModuleTerms"));
-  
+  	//Getting an instance of the database connection from the DBUtil class
   	Connection con = DbUtil.getConnection();
   
+  	//Arrays to store the details from the ResultSet which later (and initialized to null)
 	String[] moduleName = null;
 	int[] moduleCode = null;
 	String[] moduleDesc = null;
   	
   	if(searchModuleTerms !=null && searchModuleTerms.trim().length() > 0)
-  	{	
+  	{	//Does the following processing if the searchModuleTerms string isn't null or empty (with whitespaces omitted)
+  		
+  		//Declaring the PreparedStatement and ResultSet variable (and initialized to null)
   		PreparedStatement ps = null;
   		ResultSet rs = null;
   		
+  		//Constant array of SQL query such as counting number of rows and receiving the module information, which later
+  		//will be used for the PreparedStatement
  	  	final String[] rowCountQuery = {"SELECT COUNT(*) FROM module WHERE idMod LIKE ?;",
 										"SELECT COUNT(*) FROM module WHERE modName LIKE ?;",
 										"SELECT COUNT(*) FROM module WHERE modDesc LIKE ?;"};
@@ -26,10 +38,12 @@
 											"SELECT * FROM module WHERE modDesc LIKE ?;"};
 		
 		final String[] querySearchPattern = {searchModuleTerms + "%", "%" + searchModuleTerms + "%"};
+		
+		//Constant value for the number of items in the rowCountQuery and moduleRecordQuery array size
 		final int arrSize = 3;
 		
-		int countWithHighestRecord = 0;
-		int highestRecord = 0;
+		int countWithHighestRecord = 0;	//Used to store the index of the SQL query from the rowCountQuery array that has the most number of record matches
+		int highestRecord = 0;	//Used to store the most number of record matches after executing the 3 SQL queries from the rowCountQuery array.
 		
 		for(int i=0;i<arrSize;i++)
 		{
@@ -39,12 +53,13 @@
 			//to the PreparedStatement.
 			ps.setString(1, (0 == i)?querySearchPattern[0]:querySearchPattern[1]);
 			
+			//Executes the current SQL query and returns the ResultSet from the executed SQL query.
 			rs = ps.executeQuery();
 			
 			System.out.println("Executing SQL Statement: " + ps.toString());
 			
 			if(rs != null && rs.next())
-  	  		{
+  	  		{	//Declares a rowCounts variable to store the number of records (rows) that matches the entered search terms.
   	  			int rowCounts = rs.getInt(1);
   	  			
   	  			System.out.println("COUNT: " + rowCounts);
@@ -110,6 +125,12 @@
 		request.getRequestDispatcher("student_home.jsp").forward(request, response);
   %>
   <%!
+	/* Description: This function does the Server-Side input sanization from the user's input (Search terms) and returns the sanitized copy of
+	*				it.
+	*   INPUT: Search terms (from the Search Module Info page)
+	*	RETURNS: Sanitized copy of the search terms string.
+	*		   
+	*/
 	private String sanitizeInput(final String inputToSanitize)
 	{
 	  	String sanitizedStr = "";

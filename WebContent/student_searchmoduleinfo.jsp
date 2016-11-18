@@ -16,6 +16,10 @@
 	
 	<div>
 		<%
+		// The below blocks of code will display the details of the retrieved module information from the server-processing page
+		
+		//The isPosted variable checks whether has the form from the following page being POSTED (HTTP POST) to the server for
+		//processing/query the module information that matches the search term.
 		final boolean isPosted = (null != request.getAttribute("IsPosted")?(boolean) request.getAttribute("IsPosted"): false);
 		
 		if(isPosted)
@@ -53,6 +57,8 @@
 			}
 			else
 			{
+				// Displays the "No results found. Please search again" message when there isn't any module information records 
+				// (from the module table) that matches the enetered search terms for query.
 		%>
 				<h3>No results found. Please search again.</h3>
 		<%
