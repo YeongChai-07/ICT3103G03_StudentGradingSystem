@@ -33,9 +33,9 @@ table, th, td {
   </tr>
   <c:forEach items="${results}" var="module">
   	<tr>
-		<td><b><font color='Black'><c:out value="${module.getModId()}" /></font></b></td>
-		<td><b><font color='Black'><c:out value="${module.getModName()}" /></font></b></td>
-		<td><b><font color='Black'><c:out value="${module.getModDesc()}" /></font></b></td>
+		<td><c:out value="${module.getModId()}" /></td>
+		<td><c:out value="${module.getModName()}" /></td>
+		<td><c:out value="${module.getModDesc()}" /></td>
 	</tr>
 </c:forEach>
  </table>

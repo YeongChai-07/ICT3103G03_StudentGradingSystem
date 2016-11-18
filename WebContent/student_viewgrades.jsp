@@ -33,9 +33,9 @@ table, th, td {
   </tr>
   <c:forEach items="${results}" var="studentGrade">
   <tr>
-<td><b><font color='Black'><c:out value="${studentGrade.getIdMod()}" /></font></b></td>
-<td><b><font color='Black'><c:out value="${studentGrade.getModName()}" /></font></b></td>
-<td><b><font color='Black'><c:out value="${studentGrade.getGrade()}" /></font></b></td>
+<td><c:out value="${studentGrade.getIdMod()}" /></td>
+<td><c:out value="${studentGrade.getModName()}" /></td>
+<td><c:out value="${studentGrade.getGrade()}" /></td>
 </tr>
 </c:forEach>
 

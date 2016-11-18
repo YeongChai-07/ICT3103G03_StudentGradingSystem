@@ -51,15 +51,16 @@ else
                     </tr>
                     
                     <tr>
-                    
                     	<!-- users are allowed to input grades up to 1decimal place. pattern in this case is for browser such as
                     	Firefox who does not read "number" in their browser -->
                    		<td>Input Grades: </td>
-                   		<td><input type="number" name="grades" min="0" max="100" step="0.1" pattern="\d+"/></td>
+                   		<td><input type="number" id="grades" name="grades" min="0" max="100" step="0.1" pattern="[\d+]{1,3}" required aria-required="true"/></td>
                     <tr>
                         <td colspan="2" align="center">
-                        	<input type="submit" value="Submit" name="action"/>
+                        
+                        	<input type="submit" value="Submit" name="action" />
                             &nbsp;&nbsp;
+                           
                        
                             <input type="submit" value="Cancel" name="action" onclick='alert("Inputs will not be saved.")'/>
                             &nbsp;&nbsp;
