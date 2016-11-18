@@ -6,6 +6,7 @@ public class StudentModule {
 	private String name;
 	private String idMod;
 	private String modName;
+	private String grade;
 	
 	public String getUsername(){
 		return username;
@@ -37,5 +38,13 @@ public class StudentModule {
 	
 	public void setModName(String modName){
 		this.modName = modName;
+	}
+	
+	public String getGrade(){
+		return grade;
+	}
+	
+	public void setGrade(String grade){
+		this.grade = grade;
 	}
 }

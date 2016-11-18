@@ -25,7 +25,7 @@ public class FacultyDao {
 		try{
 			//Query for database
 			PreparedStatement preparedStatement = connection
-					.prepareStatement("SELECT sgs.account.username, sgs.particulars.name, sgs.module.idMod, sgs.module.modName FROM sgs.module "
+					.prepareStatement("SELECT sgs.account.username, sgs.particulars.name, sgs.module.idMod, sgs.module.modName, sgs.enroll.grade FROM sgs.module "
 							+ "JOIN sgs.enroll ON sgs.enroll.fk_enroll_mod = sgs.module.idMod " +
 							"JOIN sgs.account ON sgs.enroll.fk_enroll_acc = sgs.account.idAcc " +
 							"JOIN sgs.particulars ON sgs.particulars.fk_part_acc = sgs.account.idAcc " +
@@ -49,6 +49,11 @@ public class FacultyDao {
 			    studentModule.setName(resultSet.getString("name"));
 			    studentModule.setIdMod(resultSet.getString("idMod"));
 			    studentModule.setModName(resultSet.getString("modName"));
+			    if (resultSet.getFloat("grade") != 0.0f){
+			    	studentModule.setGrade(Float.toString(resultSet.getFloat("grade")));
+			    } else {
+			    	studentModule.setGrade("Not Graded");
+			    }
 			    
 			    System.out.println(studentModule.getUsername());
 			    results.add(studentModule);

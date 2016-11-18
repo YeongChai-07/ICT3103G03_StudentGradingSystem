@@ -37,7 +37,7 @@ else
 	  <font color='Gray'>Name </font></th><th>
 	  <font color='Gray'>Module </font></th><th>
 	  <font color='Gray'>Module Name </font></th><th>
-	  <font color='Gray'>Assign Marks </font></th><tr>
+	  <font color='Gray'>Assign / Current Marks </font></th><tr>
 
 	<c:forEach items="${results}" var="studentModule">
 		<tr>
@@ -51,7 +51,15 @@ else
 			<input type="hidden" name="stName" value="<c:out value="${studentModule.getName()}" />">
 			<input type="hidden" name="stModID" value="<c:out value="${studentModule.getIdMod()}" />">
 			<input type="hidden" name="stModName" value="<c:out value="${studentModule.getModName()}" />">
-			<input type="submit" value="Add" /></form></center></td>
+			<c:choose>
+				<c:when test="${studentModule.getGrade() != 'Not Graded' }">
+					<c:out value="${studentModule.getGrade()}" />
+				</c:when>
+				<c:otherwise>
+					<input type="submit" value="Add" />
+				</c:otherwise>
+			</c:choose>
+			</form></center></td>
 		</tr>
 	</c:forEach>
 	 </table>
