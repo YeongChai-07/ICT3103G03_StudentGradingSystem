@@ -17,12 +17,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                	
                     <tr>
+                    	<!-- This section is meant for user to input their username details -->
                         <td>Username</td>
                         <td><input type="text" name="username" pattern="[A-Za-z0-9_]{1,15}" title="Please input your username e.g 19SIC001A or A123456" required/></td>
                     </tr>
                     <tr>
+                    	<!-- This section is meant for user to input their password details -->
                         <td>Password</td>
                         <td><input type="password" name="password" required/></td>
                     </tr>
@@ -34,6 +35,7 @@
                     </tr>
                </tbody>
             </table>
+            		<!-- To display the Recaptcha widget -->
                     <%
           				ReCaptcha c = ReCaptchaFactory.newReCaptcha("6Lc-_gsUAAAAAJsn56sk_M_RoA2QXqpgjR9Aklq_", "6Lc-_gsUAAAAAGI9i3bvbiiESKpp58q683T-Am7T", false);
           				out.print(c.createRecaptchaHtml(null, null));
