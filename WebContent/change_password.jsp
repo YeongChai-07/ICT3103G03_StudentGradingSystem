@@ -1,7 +1,7 @@
 <%
 session = request.getSession();
 String uname= (String)session.getAttribute("uname");
-
+Integer urole = (Integer)session.getAttribute("urole");
 if (uname==null) {
 	response.sendRedirect("login.jsp?invaliduser");
 }
@@ -133,14 +133,29 @@ return false;
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td><input type="submit" name="Submit" value="Save"></td>
+<td><input type="submit" name="Submit" value="Save">&nbsp;&nbsp; <input type="reset" name="clear" value="Clear"></td>
 </tr>
  <input type="hidden" name="hide" value="${uname}">
 </table>
-</form>
-</br>
-<button formaction="">Back to home page</button>
-</center>
+
+	<center>
+		</br></br>
+		</form>
+			
+			<!-- Check if user is student or faculty and direct back to home page.  -->
+			<% if (urole==2){%>
+					<form method="get" name="student home">
+					<button type="submit" formaction="student_home.jsp">Back to home page</button>
+					</form>
+				<%} else { %>
+					<form method="get" name="faculty home">
+					<button type="submit" formaction="faculty_home.jsp">Back to home page</button>
+					</form>
+			<%	}%>
+			
+		 		
+		 	
+		 </center>
 </body>
 </html>
 <%
