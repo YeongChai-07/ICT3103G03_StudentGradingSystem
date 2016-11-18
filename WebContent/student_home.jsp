@@ -1,3 +1,15 @@
+<!-- 
+This page is student's home page after logging in. 
+There are 4 functionality for student.
+1. View grades
+2. View modules
+3. Change Password
+4. Search for modules via module ID or module name.
+
+ -->
+
+
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -41,6 +53,7 @@ table, th, td {
 	</br></br>
 	<hr width="50%">
 		
+	 <!-- Student able to search their modules by module ID e.g "1001" or module Name "ICT" -->
    	<h4> Search for Modules</h4>
 	<form action="process_searchmoduleinfo.jsp" method="POST">
 		<input type="text" name="searchModuleTerms" size="50" placeholder="Search module by ID, or name" required aria-required="true" pattern="[A-Za-z0-9]+" title="Make sure that the input does not contain any special characters." />

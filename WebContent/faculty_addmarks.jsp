@@ -1,3 +1,12 @@
+<!-- 
+This page will allow faculty to add marks to students taking their module.
+Values will be passed to the AddMarksController and store into database. 
+
+Student ID, Student Name, Module ID, Module Name values are passed from each row of
+faculty_liststudent.jsp table. 
+
+ -->
+
 <%@ page import="java.sql.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -32,6 +41,8 @@ else
                     </tr>
                 </thead>
                 <tbody>
+                
+                <!-- modID means module ID; stID and stName means studentID and studentName respectively. -->
                 <c:forEach items="${results}" var="studentModule">
                     <tr>
                      <td>Module ID </td>
@@ -51,8 +62,8 @@ else
                     </tr>
                     
                     <tr>
-                    	<!-- users are allowed to input grades up to 1decimal place. pattern in this case is for browser such as
-                    	Firefox who does not read "number" in their browser -->
+                    	<!-- users are allowed to input grades up to 1decimal place. pattern d+ in this case is for browser such as
+                    	Firefox who does not read type="number" in their browser -->
                    		<td>Input Grades: </td>
                    		<td><input type="number" id="grades" name="grades" min="0" max="100" step="0.1" pattern="[\d+]{1,3}" required aria-required="true"/></td>
                     <tr>
@@ -60,7 +71,6 @@ else
                         
                         	<input type="submit" value="Submit" name="action" />
                             &nbsp;&nbsp;
-                           
                        
                             <input type="submit" value="Cancel" name="action" onclick='alert("Inputs will not be saved.")'/>
                             &nbsp;&nbsp;

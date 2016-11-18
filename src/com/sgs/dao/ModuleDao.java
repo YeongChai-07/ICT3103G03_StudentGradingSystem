@@ -19,6 +19,7 @@ public class ModuleDao {
 		connection = DbUtil.getConnection();
 	}
 	
+	/*listModules will query the database based on the user logged in.*/
 	public List<Module> listModules(String username){
 		System.out.println("ModuleDAO - listModule");
 		System.out.println(username);
@@ -51,6 +52,8 @@ public class ModuleDao {
 		return results;
 	}
 	
+	
+	/*listGrades will pull from the database grades of students who logged in.*/
 	public List<StudentGrade> listGrades(String username){
 		System.out.println("ModuleDAO - listModule");
 		System.out.println(username);
@@ -90,6 +93,7 @@ public class ModuleDao {
 		return results;
 	}
 	
+	/*addMarks will update the database of students grades based on the module*/
 	public void addMarks(float marks, String modId, String username) throws Exception{
 		System.out.println("ModuleDAO - addMarks");
 		System.out.println(modId + ", " + username);

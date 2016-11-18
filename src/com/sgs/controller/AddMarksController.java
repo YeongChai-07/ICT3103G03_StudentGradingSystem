@@ -45,6 +45,7 @@ public class AddMarksController extends HttpServlet {
 		String[] stModID = request.getParameterValues("stModID");
 		String[] stModName = request.getParameterValues("stModName");
 		
+		//set list
 		studentModule.setUsername(stID[0]);
 		studentModule.setName(stName[0]);
 		studentModule.setIdMod(stModID[0]);
@@ -67,10 +68,13 @@ public class AddMarksController extends HttpServlet {
     	String forward = "";
     	String result = "";
     	
+    	//process fields with input name="action"
     	result = request.getParameter("action");
     	
     	if (result.equals("Submit")){
     		System.out.println("Submit button triggered");
+    		
+    		//retrieve data
     		String modId = request.getParameter("modID");
     		String stId = request.getParameter("stID");
     		float marks = Float.parseFloat(request.getParameter("grades"));

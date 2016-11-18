@@ -18,6 +18,7 @@ public class FacultyDao {
 		connection = DbUtil.getConnection();
 	}
 	
+	/*listStudents will display students taking the module of the lecturer logged in.*/
 	public List<StudentModule> listStudents(String username){
 		System.out.println("FacultyDAO - listStudents");
 		System.out.println(username);

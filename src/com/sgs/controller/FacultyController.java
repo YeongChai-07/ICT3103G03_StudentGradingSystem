@@ -37,7 +37,8 @@ public class FacultyController extends HttpServlet {
         String result ="";
         
 	    result = request.getParameter("action");
-
+	    
+	    //depending on the button pressed on the faculty_home.jsp, it will trigger different events
         if (result.equals("mod")){
             forward = FACULTY_LISTMOD;
         } else if (result.equals("stu")){
@@ -63,6 +64,7 @@ public class FacultyController extends HttpServlet {
         String forward="";
         String result ="";
         
+        //it will process input with name="action"
         result = request.getParameter("action");
         
         forward = FACULTY_LISTSTU;

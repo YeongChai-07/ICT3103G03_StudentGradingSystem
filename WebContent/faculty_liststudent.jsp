@@ -1,8 +1,17 @@
+<!-- 
+This page will display a list of modules taught under logged in lecturer.
+Values are triggered from FacultyController when a button is clicked. 
+By clicking on 'Add' button, values are being passed over to a controller to be 
+loaded in faculty_addmarks.jsp.
+
+ -->
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 session = request.getSession();
+//retrieve username and role
 String username= (String)session.getAttribute("uname");
 Integer urole = (Integer)session.getAttribute("urole");
 

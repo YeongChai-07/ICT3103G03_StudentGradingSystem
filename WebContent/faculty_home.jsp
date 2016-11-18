@@ -1,9 +1,19 @@
+<!-- 
+This page is faculty's home page after logging in. 
+There are 3 functionalities for faculty.
+1. View enrolled students and grades
+2. Change Password
+3. Search for students taking their module via student ID or student Name.
+ -->
+
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 		<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.util.*" %>
 <%
 System.out.println("faculty_home.jsp");
 session = request.getSession();
+
+//retrieve username and role
 String username= (String)session.getAttribute("uname");
 Integer urole = (Integer)session.getAttribute("urole");
 
@@ -51,6 +61,7 @@ else
 		</form>
  --%>
  
+ <!-- Faculty able to search students by student ID e.g "16SIC001A" or module "Azlan" -->
  <h4>Search for students enrolled in your module</h4>
 	    <form action="process_facultysearchstudents.jsp" method="POST">
 	    <input type="hidden" name = "foreignKey" value="<%= session.getAttribute("fk_enroll_acc") %>" />
