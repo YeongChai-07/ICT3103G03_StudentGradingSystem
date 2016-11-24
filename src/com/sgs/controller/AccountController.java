@@ -22,6 +22,8 @@ public class AccountController extends HttpServlet {
     private static String STUDENT = "./student_home.jsp";
     private static String FACULTY = "./faculty_home.jsp";
     private static String ERROR = "./login.jsp?error";
+    private static String ERRORATTEMPT = "./login.jsp?errorattempt";
+    private static String ACCOUNTLOCKED = "./login.jsp?locked";
     private static String LOGOUT = "./logout.jsp";
     private AccountDao dao;
     private HttpSession hs; 
@@ -67,6 +69,7 @@ public class AccountController extends HttpServlet {
 	     	 StringBuffer sbToCheck = new StringBuffer();
 	         String checkPassw, salt, username, passw ="";
 	         String forward = "";
+	         Integer attempt = null;
 	         Integer role = null;
 	         Integer fk_part_acc = null;
 	         
@@ -92,7 +95,12 @@ public class AccountController extends HttpServlet {
 		    	hs.setAttribute("urole", role);
 		    	System.out.println(fk_part_acc);
 		    	hs.setAttribute("fk_enroll_acc", fk_part_acc);
-		    	if (role != null){
+		    	attempt = dao.checkLoginAttempt(username);
+		    	
+		    	if (role != null && attempt > 0){
+		    		
+		    		//password correct
+		    		dao.updateLoginAttempt(username);
 				    if(role==1){
 						System.out.println("AccountController role = FACULTY");
 						forward = FACULTY;
@@ -101,13 +109,23 @@ public class AccountController extends HttpServlet {
 						System.out.println("AccountController role = STUDENT");
 				        forward = STUDENT;
 					 }
-		    	} else {
-					 System.out.println("AccountController ERROR");
-					 forward = ERROR;
-					 JOptionPane.showMessageDialog(null, "Invalid login.", "Error",
-                             JOptionPane.ERROR_MESSAGE);
+		    	} 
+		    	else {
+		    		attempt = dao.checkLoginAttempt(username);
+		     		if(attempt<=0)
+		    		{
+						 System.out.println("AccountController LOCKED");
+						 forward = ACCOUNTLOCKED;
+		    		}
+		     		else{
+			    		 dao.reduceLoginAttempt(username);
+						 System.out.println("AccountController ERROR ATTEMPT");
+						 forward = ERRORATTEMPT;
+		    		}
 				 }
-	         } else {
+	         } 
+	         else 
+	         {
 	        	 System.out.println("Invalid login credentials");
 	        	 forward = ERROR;
 	        	 JOptionPane.showMessageDialog(null, "Invalid CAPTCHA.", "Error",
@@ -120,7 +138,6 @@ public class AccountController extends HttpServlet {
     		 System.out.println("Invalid CAPTCHA");
     		 response.sendRedirect(ERROR);
     	 }
-         
     }
     
     protected class Encrypt {

@@ -104,7 +104,46 @@ public class AccountDao {
 			PreparedStatement preparedStatement = connection.prepareStatement("update account set security=?,password=? where username=?");
 			preparedStatement.setString(1, acc.getSecurityCode());
 			preparedStatement.setString(2, acc.getPassword());
-			preparedStatement.setString(3, acc.getUsername());;
+			preparedStatement.setString(3, acc.getUsername());
+			int i = preparedStatement.executeUpdate();
+		}
+		catch(Exception e){}
+	}
+	
+	public Integer checkLoginAttempt(String uname){
+		Integer attempt = 0;
+		
+		try{
+			PreparedStatement preparedStatement = connection.prepareStatement("Select login_attempt from account where username=?");
+			preparedStatement.setString(1, uname);
+			ResultSet rs = preparedStatement.executeQuery(); 
+			
+			if (rs.next()) { 
+				attempt = rs.getInt("login_attempt");
+			}
+		}
+		catch(Exception e){}
+
+		return attempt;
+	}
+	
+	
+	public void reduceLoginAttempt(String uname){
+
+		try{
+			PreparedStatement preparedStatement = connection.prepareStatement("Update account set login_attempt=login_attempt-1 where username=?");
+			preparedStatement.setString(1, uname);
+			int i = preparedStatement.executeUpdate();
+			
+		}
+		catch(Exception e){}
+
+	}
+	public void updateLoginAttempt(String uname){
+		
+		try{
+			PreparedStatement preparedStatement = connection.prepareStatement("Update account set login_attempt = 4 where username=?");
+			preparedStatement.setString(1, uname);
 			int i = preparedStatement.executeUpdate();
 		}
 		catch(Exception e){}
