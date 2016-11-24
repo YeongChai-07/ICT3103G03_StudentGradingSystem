@@ -18,13 +18,12 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 
 public class AccountController extends HttpServlet {
 
-	private static final long serialVersionUID = 2L;
-    private static String STUDENT = "./student_home.jsp";
-    private static String FACULTY = "./faculty_home.jsp";
-    private static String ERROR = "./login.jsp?error";
-    private static String ERRORATTEMPT = "./login.jsp?errorattempt";
-    private static String ACCOUNTLOCKED = "./login.jsp?locked";
-    private static String LOGOUT = "./logout.jsp";
+    private String STUDENT = "./student_home.jsp";
+    private String FACULTY = "./faculty_home.jsp";
+    private String ERROR = "./login.jsp?error";
+    private String ERRORATTEMPT = "./login.jsp?errorattempt";
+    private String ACCOUNTLOCKED = "./login.jsp?locked";
+    private String LOGOUT = "./logout.jsp";
     private AccountDao dao;
     private HttpSession hs; 
     
@@ -140,7 +139,7 @@ public class AccountController extends HttpServlet {
     	 }
     }
     
-    protected class Encrypt {
+    protected static class Encrypt {
 		StringBuffer sb = new StringBuffer();
 	    public String EncryptPass(String str) {
 	    	try{

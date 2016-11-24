@@ -17,10 +17,9 @@ import com.sgs.model.StudentModule;
 
 public class AddMarksController extends HttpServlet {
 	
-	private static final long serialVersionUID = 3L;
-	private static String ADD_MARKS = "/faculty_addmarks.jsp";
-    private static String FACULTY_LISTSTU = "./faculty_liststudent.jsp";
-	private static String CANCEL = "/FacultyController";
+	private String ADD_MARKS = "/faculty_addmarks.jsp";
+    private String FACULTY_LISTSTU = "./faculty_liststudent.jsp";
+	private String CANCEL = "/FacultyController";
 	private ModuleDao dao;
 	private HttpSession hs; 
 	

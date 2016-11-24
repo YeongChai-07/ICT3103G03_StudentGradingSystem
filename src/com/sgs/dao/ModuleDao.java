@@ -13,7 +13,7 @@ import com.sgs.util.DbUtil;
 
 public class ModuleDao {
 
-	private static Connection connection;
+	private Connection connection;
 	
 	public ModuleDao(){
 		connection = DbUtil.getConnection();

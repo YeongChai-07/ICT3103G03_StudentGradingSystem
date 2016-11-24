@@ -12,7 +12,7 @@ import com.sgs.util.DbUtil;
 
 public class FacultyDao {
 	
-	private static Connection connection;
+	private Connection connection;
 	
 	public FacultyDao(){
 		connection = DbUtil.getConnection();

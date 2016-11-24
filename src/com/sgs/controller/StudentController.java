@@ -14,14 +14,11 @@ import com.sgs.dao.ModuleDao;
 import java.security.*;
 
 public class StudentController extends HttpServlet {
-
-	private static final long serialVersionUID = 3L;
-
-    private static String STUDENT_SEARCH = "./student_home.jsp";
-    private static String STUDENT_VIEWMODULES = "./student_enrolledmodules.jsp";
-    private static String STUDENT_VIEWGRADES = "./student_viewgrades.jsp";
-    private static String CHANGE_PASS = "./change_password.jsp";
-    private static String ERROR = "/login.jsp?invaliduser";
+    private String STUDENT_SEARCH = "./student_home.jsp";
+    private String STUDENT_VIEWMODULES = "./student_enrolledmodules.jsp";
+    private String STUDENT_VIEWGRADES = "./student_viewgrades.jsp";
+    private String CHANGE_PASS = "./change_password.jsp";
+    private String ERROR = "/login.jsp?invaliduser";
     private ModuleDao dao;
     private HttpSession hs; 
     

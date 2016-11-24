@@ -15,12 +15,11 @@ import java.security.*;
 
 public class FacultyController extends HttpServlet {
 
-	private static final long serialVersionUID = 3L;
-	 private static String FACULTY_SEARCH = "./faculty_home.jsp";
-    private static String FACULTY_LISTMOD = "./faculty_listmodule.jsp";
-    private static String FACULTY_LISTSTU = "./faculty_liststudent.jsp";
-    private static String CHANGE_PASS = "./change_password.jsp";
-    private static String ERROR = "/login.jsp?invaliduser";
+	private String FACULTY_SEARCH = "./faculty_home.jsp";
+    private String FACULTY_LISTMOD = "./faculty_listmodule.jsp";
+    private String FACULTY_LISTSTU = "./faculty_liststudent.jsp";
+    private String CHANGE_PASS = "./change_password.jsp";
+    private String ERROR = "/login.jsp?invaliduser";
     private FacultyDao dao;
     private HttpSession hs; 
     

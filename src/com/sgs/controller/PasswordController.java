@@ -17,10 +17,9 @@ import java.util.UUID;
 
 public class PasswordController extends HttpServlet {
 
-	private static final long serialVersionUID = 2L;
-    private static String ERROR = "/login.jsp?error";
-    private static String LOGOUT = "./logout.jsp";
-    private static String CHANGEPASS = "./change_password.jsp";
+    private String ERROR = "/login.jsp?error";
+    private String LOGOUT = "./logout.jsp";
+    private String CHANGEPASS = "./change_password.jsp";
     private AccountDao dao;
     private HttpSession hs; 
     
@@ -97,7 +96,7 @@ public class PasswordController extends HttpServlet {
 		 }
     }
     
-    protected class Encrypt {
+    protected static class Encrypt {
 		StringBuffer sb = new StringBuffer();
 	    public String EncryptPass(String str) {
 	    	try{

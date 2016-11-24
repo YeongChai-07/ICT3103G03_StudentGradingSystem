@@ -15,9 +15,9 @@ import com.sgs.dao.UserDao;
 import com.sgs.model.User;
 
 public class UserController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    private static String INSERT_OR_EDIT = "/user.jsp";
-    private static String LIST_USER = "/listUser.jsp";
+	
+    private String INSERT_OR_EDIT = "/user.jsp";
+    private String LIST_USER = "/listUser.jsp";
     private UserDao dao;
 
     public UserController() {
