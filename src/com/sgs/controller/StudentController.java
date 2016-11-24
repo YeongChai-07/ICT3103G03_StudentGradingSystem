@@ -16,6 +16,8 @@ import java.security.*;
 public class StudentController extends HttpServlet {
 
 	private static final long serialVersionUID = 3L;
+
+    private static String STUDENT_SEARCH = "./student_home.jsp";
     private static String STUDENT_VIEWMODULES = "./student_enrolledmodules.jsp";
     private static String STUDENT_VIEWGRADES = "./student_viewgrades.jsp";
     private static String CHANGE_PASS = "./change_password.jsp";
@@ -38,7 +40,9 @@ public class StudentController extends HttpServlet {
         
 	    result = request.getParameter("action");
 	    
-	    if (result.equals("modules")){
+	    if (result.equals("search")){
+	    	forward = STUDENT_SEARCH;
+	    }else if (result.equals("modules")){
 	    	forward = STUDENT_VIEWMODULES;
 	    	request.setAttribute("results", dao.listModules((String)hs.getAttribute("uname")));
 	    } else if (result.equals("grades")){

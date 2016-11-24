@@ -16,6 +16,7 @@ import java.security.*;
 public class FacultyController extends HttpServlet {
 
 	private static final long serialVersionUID = 3L;
+	 private static String FACULTY_SEARCH = "./faculty_home.jsp";
     private static String FACULTY_LISTMOD = "./faculty_listmodule.jsp";
     private static String FACULTY_LISTSTU = "./faculty_liststudent.jsp";
     private static String CHANGE_PASS = "./change_password.jsp";
@@ -39,12 +40,14 @@ public class FacultyController extends HttpServlet {
 	    result = request.getParameter("action");
 	    
 	    //depending on the button pressed on the faculty_home.jsp, it will trigger different events
-        if (result.equals("mod")){
+	    if (result.equals("search")){
+            forward = FACULTY_SEARCH;
+        }else if (result.equals("mod")){
             forward = FACULTY_LISTMOD;
         } else if (result.equals("stu")){
         	forward = FACULTY_LISTSTU;
         	request.setAttribute("results", dao.listStudents((String)hs.getAttribute("uname")));
-        } else if (result.equals("cha")){
+        } else if (result.equals("change")){
         	forward = CHANGE_PASS;
         } else {
             forward = ERROR;

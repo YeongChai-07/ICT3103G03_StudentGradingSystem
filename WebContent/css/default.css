@@ -1,0 +1,44 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}
+.submitLink {
+	background-color: transparent;
+	border: none;
+	cursor: auto;
+	color: #9d9d9d;
+	position: relative;
+	display: block;
+	padding-top: 15px;
+	padding-right: 15px;
+}
+
+.submitLink:hover,.submitLink:focus  {
+    color: #fff;
+    background-color: transparent;
+}
+
+.accountLink {
+	background-color: transparent;
+	border: none;
+	cursor: auto;
+	color: black;
+	position: relative;
+	display: block;
+	padding-top: 15px;
+	padding-right: 15px;
+	text-align: center;
+}
+
+.accountLink:hover,.accountLink:focus  {
+    color: black;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
+
+.navbar-inverse .navbar-brand:hover, 
+.navbar-inverse .navbar-brand:focus {
+  background-color: transparent;
+  color: #999999;
+}
