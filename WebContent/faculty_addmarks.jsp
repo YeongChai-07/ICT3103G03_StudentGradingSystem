@@ -50,12 +50,12 @@ else
            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
            		<ul class="nav navbar-nav navbar-right">
            			<li>
-	                    	<form method="get" action="FacultyController">
+	                    	<form method="post" action="FacultyController">
 	                        	<button type="submit" value="search" name="action" class="submitLink">Home</button>
 	                        </form>
 	                    </li>
 	                	<li>
-	                    	<form method="get" action="FacultyController">
+	                    	<form method="post" action="FacultyController">
 	                        	<button type="submit" value="stu" name="action" class="submitLink">View Modules & Grade Students</button>
 	                        </form>
 	                    </li>
@@ -64,7 +64,7 @@ else
                         	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Faculty&nbsp;<span>${uname}</span><b class="caret"></b></a>
                         		<ul class="dropdown-menu">
                             		<li>
-                            			<form method="get" action="FacultyController">
+                            			<form method="post" action="FacultyController">
                                 			<button type="submit" value="change" name="action" class="accountLink">Change Password</button>
                                 		</form>
                             		</li>
