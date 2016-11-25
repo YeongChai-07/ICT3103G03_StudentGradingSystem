@@ -29,8 +29,39 @@ public class StudentController extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    	hs = request.getSession();
+//    	hs = request.getSession();
     	System.out.println("StudentController doGet");
+    	
+//        String forward="";
+//        String result ="";
+//        
+//	    result = request.getParameter("action");
+//	    
+//	    if (result.equals("search")){
+//	    	forward = STUDENT_SEARCH;
+//	    }else if (result.equals("modules")){
+//	    	forward = STUDENT_VIEWMODULES;
+//	    	request.setAttribute("results", dao.listModules((String)hs.getAttribute("uname")));
+//	    } else if (result.equals("grades")){
+//	    	forward = STUDENT_VIEWGRADES;
+//	    	request.setAttribute("results", dao.listGrades((String)hs.getAttribute("uname")));
+//	    } else if (result.equals("change")){
+//	    	forward = CHANGE_PASS;
+//	    	
+//	    } else {
+//	    	forward = ERROR;
+//	    	
+//	    }
+//	    
+//	    System.out.println(forward);
+//	    RequestDispatcher view = request.getRequestDispatcher(forward);
+//	    view.forward(request, response);
+    }
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
+    	hs = request.getSession();
+    	System.out.println("StudentController doPost");
     	
         String forward="";
         String result ="";
@@ -56,9 +87,5 @@ public class StudentController extends HttpServlet {
 	    System.out.println(forward);
 	    RequestDispatcher view = request.getRequestDispatcher(forward);
 	    view.forward(request, response);
-    }
-    
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	System.out.println("StudentController doPost");
     }
 }

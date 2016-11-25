@@ -17,18 +17,6 @@
 
 
 <h5>Students</h5>
-<%-- <% for(Object[] tempStudentList: name) {
-    for(Object tempStudent : tempStudentList) {
-    	//maybe don't cast into string..instead display the array ?
-         //String student = (String) tempStudent;
-         %> 
-         
-         <p><%= tempStudent %>
-        <% 
-    } 
-} %>
- --%>
- 
 
 <table border = "1">
 <tr>

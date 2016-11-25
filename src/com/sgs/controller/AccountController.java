@@ -136,14 +136,18 @@ public class AccountController extends HttpServlet {
 	         {
 	        	 System.out.println("Invalid login credentials");
 	        	 forward = ERROR;
-	        	 JOptionPane.showMessageDialog(null, "Invalid CAPTCHA.", "Error",
-                         JOptionPane.ERROR_MESSAGE);
+	        	// JOptionPane.showMessageDialog(null, "Invalid CAPTCHA.", "Error",
+                  //  JOptionPane.ERROR_MESSAGE);
+	        	
 	         }
-	         
+	        
 	         response.sendRedirect(forward);
 	         
     	 } else {
     		 System.out.println("Invalid CAPTCHA");
+    		 //request.setAttribute("message", "Invalid Captcha - Test");
+	        // request.getRequestDispatcher("/login.jsp").forward(request, response);
+	        // return;
     		 response.sendRedirect(ERROR);
     	 }
     }

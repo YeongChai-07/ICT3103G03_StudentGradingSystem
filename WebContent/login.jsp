@@ -19,27 +19,29 @@
 
         <form method="post" action="AccountController">
         	<br/>
+        	
         	<div class="container-fluid">
-	            <div class="row">
-	            	<div class="col-lg-4">&nbsp;</div>
-	            	<div class="col-lg-4">
+	            <div class="row" >
+	            	<div class="col-lg-4"></div>
+	            	<div class="col-lg-4" >
+	            	<h1 align="center">Welcome to SGS</h1>
 	            		<div class="panel panel-default">
-	            			<div class="panel-heading"><b>Welcome to SGS</b></div>
+	            			<div class="panel-heading"><b>Please login to proceed.</b></div>
 	            			<div class="panel-body form-horizontal">
 	            			
 	            				<div class="form-group">
 	            					<!-- This section is meant for user to input their username details -->
-	                        		<label for="txtUsername" class="col-sm-2 control-label">Username</label>
+	                        		<label for="txtUsername" class="col-sm-3 control-label">Username</label>
 	                        		<div class="col-sm-9">
-	                        			<input type="text" class="form-control" name="username" id="txtUsername" pattern="[A-Za-z0-9_]{1,15}" title="Please input your username e.g 19SIC001A or A123456" required/>
+	                        			<input type="text" class="col-xs-1 form-control" name="username" id="txtUsername"  pattern="[A-Za-z0-9_]{1,15}" title="Please input your username e.g 19SIC001A or A123456" required/>
 	                        		</div>
 	                        		
 	            				</div>
 	            				<div class="form-group">
 	                    			<!-- This section is meant for user to input their password details -->
-	                        		<label for="txtPassword" class="col-sm-2 control-label">Password</label>
+	                        		<label for="txtPassword" class="col-sm-3 control-label" >Password</label>
 	                        		<div class="col-sm-9">
-	                        			<input type="password" class="form-control" name="password" id="txtPassword" required/>
+	                        			<input type="password" class="col-xs-1 form-control" name="password" id="txtPassword" size="30" required />
 	                        		</div>
 	                        		
 	            				</div>
@@ -49,6 +51,14 @@
 	                            &nbsp;&nbsp;
 	                            <input type="reset" value="Reset" />
 	                            <br/>
+	                            <%
+	                            	if(request.getAttribute("message") != null)
+	                            	out.print(request.getAttribute("message"));
+	                            
+	                            if(request.getParameter("error") != null){
+	                            	out.print(request.getParameter("error"));
+	                            }
+	                            %>
 	                            <br/>
 	                            <!-- To display the Recaptcha widget -->
 	                    		<%

@@ -44,12 +44,6 @@ else
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <!-- button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button-->
                 <span class="navbar-brand">Student Grading System</span>
            </div>
            <!-- Collect the nav links, forms, and other content for toggling -->
@@ -133,7 +127,7 @@ else
 					                 Firefox who does not read type="number" in their browser -->
 					                <label class="col-sm-3">Input Grades: </label>
 					                <div class="col-sm-9">
-					                	<input type="number" class="form-control" id="grades" name="grades" min="0" max="100" step="0.1" pattern="[\d+]{1,3}" required aria-required="true"/>
+					                	<input type="number" class="form-control" id="grades" name="grades" min="0" max="100" step="0.1" pattern="[\d+]{1,3}"/>
 					            	</div>
 					            </div>
 					            <div class="form-group">

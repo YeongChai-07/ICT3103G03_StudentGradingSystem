@@ -43,17 +43,17 @@ System.out.println("uname = " + username +". urole = " + urole + ".");
             	   
                 	<ul class="nav navbar-nav navbar-right">
                 	<li>
-	                    	<form method="get" action="StudentController">
+	                    	<form method="post" action="StudentController">
 	                        	<button type="submit" value="search" name="action" class="submitLink">Home</button>
 	                        </form>
 	                    </li>
 	                	<li>
-	                    	<form method="get" action="StudentController">
+	                    	<form method="post" action="StudentController">
 	                        	<button type="submit" value="modules" name="action" class="submitLink">My Modules</button>
 	                        </form>
 	                    </li>
 		                <li>
-		                    <form method="get" action="StudentController">
+		                    <form method="post" action="StudentController">
 		                        <button type="submit" value="grades" name="action" class="submitLink">My Grades</button>
 		                    </form>
 		               </li>
@@ -62,7 +62,7 @@ System.out.println("uname = " + username +". urole = " + urole + ".");
                         	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Student&nbsp;<span>${uname}</span><b class="caret"></b></a>
                         		<ul class="dropdown-menu">
                             		<li>
-                            			<form method="get" action="StudentController">
+                            			<form method="post" action="StudentController">
                                 			<button type="submit" value="change" name="action" class="accountLink">Change Password</button>
                                 		</form>
                             		</li>

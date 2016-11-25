@@ -31,32 +31,32 @@ public class AddMarksController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		hs = request.getSession();
-		System.out.println("AddMarksController doGet");
-		
-		String forward = "";
-		
-		List<StudentModule> results = new ArrayList<StudentModule>();
-		
-		//Retrieve values from from data
-		StudentModule studentModule = new StudentModule();
-		String[] stID = request.getParameterValues("stID");
-		String[] stName = request.getParameterValues("stName");
-		String[] stModID = request.getParameterValues("stModID");
-		String[] stModName = request.getParameterValues("stModName");
-		
-		//set list
-		studentModule.setUsername(stID[0]);
-		studentModule.setName(stName[0]);
-		studentModule.setIdMod(stModID[0]);
-		studentModule.setModName(stModName[0]);
-		results.add(studentModule);
-		
-		forward = ADD_MARKS;
-		request.setAttribute("results", results);
-		
-		RequestDispatcher view = request.getRequestDispatcher(forward);
-		view.forward(request, response);
+//		hs = request.getSession();
+//		System.out.println("AddMarksController doGet");
+//		
+//		String forward = "";
+//		
+//		List<StudentModule> results = new ArrayList<StudentModule>();
+//		
+//		//Retrieve values from from data
+//		StudentModule studentModule = new StudentModule();
+//		String[] stID = request.getParameterValues("stID");
+//		String[] stName = request.getParameterValues("stName");
+//		String[] stModID = request.getParameterValues("stModID");
+//		String[] stModName = request.getParameterValues("stModName");
+//		
+//		//set list
+//		studentModule.setUsername(stID[0]);
+//		studentModule.setName(stName[0]);
+//		studentModule.setIdMod(stModID[0]);
+//		studentModule.setModName(stModName[0]);
+//		results.add(studentModule);
+//		
+//		forward = ADD_MARKS;
+//		request.setAttribute("results", results);
+//		
+//		RequestDispatcher view = request.getRequestDispatcher(forward);
+//		view.forward(request, response);
 		
 	}
 	
@@ -99,6 +99,31 @@ public class AddMarksController extends HttpServlet {
 				e.printStackTrace();
 			}
     		
+    	} else if (result.equals("Add")) {
+    		System.out.println("Add Marks Button Triggered");
+    		
+    		List<StudentModule> results = new ArrayList<StudentModule>();
+    		
+    		//Retrieve values from from data
+    		StudentModule studentModule = new StudentModule();
+    		String[] stID = request.getParameterValues("stID");
+    		String[] stName = request.getParameterValues("stName");
+    		String[] stModID = request.getParameterValues("stModID");
+    		String[] stModName = request.getParameterValues("stModName");
+    		
+    		//set list
+    		studentModule.setUsername(stID[0]);
+    		studentModule.setName(stName[0]);
+    		studentModule.setIdMod(stModID[0]);
+    		studentModule.setModName(stModName[0]);
+    		results.add(studentModule);
+    		
+    		forward = ADD_MARKS;
+    		request.setAttribute("results", results);
+    		
+//    		RequestDispatcher view = request.getRequestDispatcher(forward);
+//    		view.forward(request, response);
+    	
     	} else {
     		System.out.println("Cancel button triggered");
     		request.setAttribute("action", "stu");
