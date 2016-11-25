@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.sgs.model.Account;
 import com.sgs.util.DbUtil;
@@ -14,18 +11,17 @@ import com.sgs.util.DbUtil;
 public class AccountDao {
 
 	private Connection connection;
-	private PreparedStatement preparedStatement = null;
-	private ResultSet rs = null;
 
 	public AccountDao() {
 		connection = DbUtil.getConnection();
 	}
 	
-	public String getSalt(String username){
+	public String getSalt(String username) throws SQLException{
 		String salt= "";
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("select security from account where username=?");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("select security from account where username=?");
+			
 			preparedStatement.setString(1, username);
 			ResultSet rs = preparedStatement.executeQuery();   
 			
@@ -34,21 +30,21 @@ public class AccountDao {
 				  salt = rs.getString("security");
 			}
 			
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		} finally{
+			preparedStatement.close();
+		}
 		return salt;
 		
 	}
-	public Integer checkPassword(String uname, String passw)
+	public Integer checkPassword(String uname, String passw) throws SQLException
 	{
 		//Account acc = new Account();
-		String salt= "";
 		Integer role= null;
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("Select * from account where username=? AND password=?");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("Select * from account where username=? AND password=?");
 			preparedStatement.setString(1, uname);
 			preparedStatement.setString(2, passw);
 			ResultSet rs = preparedStatement.executeQuery();   
@@ -56,25 +52,26 @@ public class AccountDao {
 			if(rs.next()){
 				 //check id
 				 role = rs.getInt("fk_acc_role");
-				 System.out.println("AccountDao role: " + role);
 			}
+			rs.close();
 			
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 		
 		return role;
 	}
 	
-	public Integer getAccountId(String uname, String passw)
+	public Integer getAccountId(String uname, String passw) throws SQLException
 	{
 		//Account acc = new Account();
-		String salt= "";
 		Integer fk_part_acc= null;
+
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("Select * from account where username=? AND password=?");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("Select * from account where username=? AND password=?");
 			preparedStatement.setString(1, uname);
 			preparedStatement.setString(2, passw);
 			ResultSet rs = preparedStatement.executeQuery();   
@@ -84,21 +81,20 @@ public class AccountDao {
 				 fk_part_acc = rs.getInt("fk_part_acc");
 			}
 			
-			
-			preparedStatement.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 		
 		return fk_part_acc;
 	}
 	
-	public Account getPasswordSecurity(String uname){
+	public Account getPasswordSecurity(String uname) throws SQLException{
 
 		Account acc = new Account();
+		PreparedStatement preparedStatement = connection.prepareStatement("Select * from account where username=?");
 		try{
-			PreparedStatement preparedStatement = connection.prepareStatement("Select * from account where username=?");
 			preparedStatement.setString(1, uname);
 			ResultSet rs = preparedStatement.executeQuery(); 
 			
@@ -106,71 +102,78 @@ public class AccountDao {
 			acc.setPassword(rs.getString("password"));
 			acc.setSecurityCode(rs.getString("security"));
 			}
-			
-			preparedStatement.close();
 		}
 		catch(Exception e){}
-
+		finally{
+			preparedStatement.close();
+		}
 		return acc;
 		
 	}
 	
-	public void updatePassword(Account acc)
+	public void updatePassword(Account acc) throws SQLException
 	{
+		PreparedStatement preparedStatement = connection.prepareStatement("update account set security=?,password=? where username=?");
 		try{
-			PreparedStatement preparedStatement = connection.prepareStatement("update account set security=?,password=? where username=?");
 			preparedStatement.setString(1, acc.getSecurityCode());
 			preparedStatement.setString(2, acc.getPassword());
 			preparedStatement.setString(3, acc.getUsername());
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
 		}
 		catch(Exception e){}
+		finally{
+			preparedStatement.close();
+		}
 	
 	}
 	
-	public Integer checkLoginAttempt(String uname){
+	public Integer checkLoginAttempt(String uname) throws SQLException{
 		Integer attempt = 0;
-		
+		PreparedStatement preparedStatement = connection.prepareStatement("Select login_attempt from account where username=?");
 		try{
-			PreparedStatement preparedStatement = connection.prepareStatement("Select login_attempt from account where username=?");
 			preparedStatement.setString(1, uname);
 			ResultSet rs = preparedStatement.executeQuery(); 
 			
 			if (rs.next()) { 
 				attempt = rs.getInt("login_attempt");
 			}
-			
-			preparedStatement.close();
 		}
 		catch(Exception e){}
-
+		finally{
+			preparedStatement.close();
+		}
 		
 		return attempt;
 	
 	}
 	
 	
-	public void reduceLoginAttempt(String uname){
+	public void reduceLoginAttempt(String uname) throws SQLException{
 
+		PreparedStatement preparedStatement = connection.prepareStatement("Update account set login_attempt=login_attempt-1 where username=?");
 		try{
-			PreparedStatement preparedStatement = connection.prepareStatement("Update account set login_attempt=login_attempt-1 where username=?");
 			preparedStatement.setString(1, uname);
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			
 		}
 		catch(Exception e){}
+		finally{
+			preparedStatement.close();
+		}
 		
 	}
-	public void updateLoginAttempt(String uname){
+	public void updateLoginAttempt(String uname) throws SQLException{
 		
+		PreparedStatement preparedStatement = connection.prepareStatement("Update account set login_attempt = 5 where username=?");
 		try{
-			PreparedStatement preparedStatement = connection.prepareStatement("Update account set login_attempt = 4 where username=?");
 			preparedStatement.setString(1, uname);
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			
 		}
 		catch(Exception e){}
+		finally{
+			preparedStatement.close();
+		}
 		
 	} 
 	

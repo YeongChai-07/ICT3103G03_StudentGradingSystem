@@ -9,10 +9,10 @@ public class Log {
 	private Integer fk_log_acc;
 	
 	public Date getTimestamp() {
-		return timestamp;
+		return new Date(timestamp.getTime());
 	}
 	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
+		this.timestamp = new Date(timestamp.getTime());
 	}
 	public String getAction() {
 		return action;

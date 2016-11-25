@@ -19,20 +19,20 @@ public class FacultyDao {
 	}
 	
 	/*listStudents will display students taking the module of the lecturer logged in.*/
-	public List<StudentModule> listStudents(String username){
+	public List<StudentModule> listStudents(String username) throws SQLException{
 		System.out.println("FacultyDAO - listStudents");
 		System.out.println(username);
 		List<StudentModule> results = new ArrayList<StudentModule>();
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("SELECT sgs.account.username, sgs.particulars.name, sgs.module.idMod, sgs.module.modName, sgs.enroll.grade FROM sgs.module "
+						+ "JOIN sgs.enroll ON sgs.enroll.fk_enroll_mod = sgs.module.idMod " +
+						"JOIN sgs.account ON sgs.enroll.fk_enroll_acc = sgs.account.idAcc " +
+						"JOIN sgs.particulars ON sgs.particulars.fk_part_acc = sgs.account.idAcc " +
+						" WHERE sgs.account.fk_acc_role = 2 AND sgs.enroll.fk_enroll_mod IN (" + 
+						" SELECT sgs.enroll.fk_enroll_mod FROM sgs.account JOIN sgs.enroll ON sgs.enroll.fk_enroll_acc = sgs.account.idAcc "
+						+ "WHERE sgs.account.username = ? ) ORDER BY idMod"); 
 		try{
 			//Query for database
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("SELECT sgs.account.username, sgs.particulars.name, sgs.module.idMod, sgs.module.modName, sgs.enroll.grade FROM sgs.module "
-							+ "JOIN sgs.enroll ON sgs.enroll.fk_enroll_mod = sgs.module.idMod " +
-							"JOIN sgs.account ON sgs.enroll.fk_enroll_acc = sgs.account.idAcc " +
-							"JOIN sgs.particulars ON sgs.particulars.fk_part_acc = sgs.account.idAcc " +
-							" WHERE sgs.account.fk_acc_role = 2 AND sgs.enroll.fk_enroll_mod IN (" + 
-							" SELECT sgs.enroll.fk_enroll_mod FROM sgs.account JOIN sgs.enroll ON sgs.enroll.fk_enroll_acc = sgs.account.idAcc "
-							+ "WHERE sgs.account.username = ? ) ORDER BY idMod"); 
 			preparedStatement.setString(1, username);
 			
 			//Perform query and get result
@@ -63,6 +63,8 @@ public class FacultyDao {
 			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 		return results;
 	}
