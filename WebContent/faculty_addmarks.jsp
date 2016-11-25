@@ -11,18 +11,7 @@ faculty_liststudent.jsp table.
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-//Retrieve lecturer username and role
-session = request.getSession();
-String username= (String)session.getAttribute("uname");
-Integer urole = (Integer)session.getAttribute("urole");
 
-if (username==null || urole !=1 || username == null && urole != 1) {
-	response.sendRedirect("login.jsp?invaliduser");
-}
-else
-{
-%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -155,5 +144,3 @@ else
 <script src="js/bootstrap.min.js"></script>	
 </body>
 </html>
-<%
-}%>
