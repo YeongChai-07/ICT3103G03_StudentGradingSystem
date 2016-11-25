@@ -46,6 +46,8 @@ public class ModuleDao {
 				System.out.println(module.getModName());
 				results.add(module);
 			}
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -87,6 +89,8 @@ public class ModuleDao {
 				System.out.println(studentGrade.getModName());
 				results.add(studentGrade);
 			}
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -110,6 +114,7 @@ public class ModuleDao {
 			
 			//Perform query and get result
 			preparedStatement.executeUpdate();
+			preparedStatement.close();
 		} catch (Exception e){
 			throw e;
 		}
