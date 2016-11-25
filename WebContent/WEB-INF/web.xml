@@ -4,6 +4,31 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+<filter>
+	<filter-name>SessionFilter</filter-name>
+	<filter-class>
+		com.sgs.servlet.SessionFilter
+	</filter-class>
+	<init-param>
+        <param-name>avoid-urls</param-name>
+        <param-value>/login,/login2fa.jsp,/test,/test2</param-value>
+    </init-param>
+</filter>
+    <filter>
+        <filter-name>NoCacheFilter</filter-name>
+        <filter-class>
+            com.sgs.servlet.filter.NoCacheFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SessionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>NoCacheFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
   <servlet>
     <description></description>
     <display-name>UserController</display-name>
