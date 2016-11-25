@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sgs.controller.AccountController.Encrypt;
 import com.sgs.dao.AccountDao;
+import com.sgs.dao.LogDao;
 import com.sgs.model.Account;
 
 import java.security.*;
@@ -78,6 +79,9 @@ public class PasswordController extends HttpServlet {
 				accUpdate.setPassword(toUpdatePassword);
 			
 				dao.updatePassword(accUpdate);
+				
+				LogDao logDao = new LogDao();
+				logDao.logChangePassword(username);
 				
 				System.out.println("Password changed successfully");
 		        response.sendRedirect(LOGOUT);

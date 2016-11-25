@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sgs.dao.FacultyDao;
+import com.sgs.dao.LogDao;
 import com.sgs.dao.ModuleDao;
 import com.sgs.model.StudentModule;
 
@@ -75,11 +76,14 @@ public class AddMarksController extends HttpServlet {
     		
     		//retrieve data
     		String modId = request.getParameter("modID");
+    		String modName = request.getParameter("moduleName");
     		String stId = request.getParameter("stID");
     		float marks = Float.parseFloat(request.getParameter("grades"));
     		
     		System.out.println(marks);
     		System.out.println(modId + " " + stId);
+    		
+    		LogDao logDao = new LogDao();
     		
     		try {
 				dao.addMarks(marks, modId, stId);
@@ -87,6 +91,8 @@ public class AddMarksController extends HttpServlet {
 				forward = FACULTY_LISTSTU;
 	        	request.setAttribute("results", facultyDao.listStudents((String)hs.getAttribute("uname")));
 	        	request.setAttribute("getAlert", "Yes");
+	        	
+	        	logDao.logAddMarks((String)hs.getAttribute("uname"), stId, modName);
 	        	
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
