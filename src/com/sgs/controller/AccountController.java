@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import com.sgs.dao.AccountDao;
+import com.sgs.dao.LogDao;
 
 import java.security.*;
 import net.tanesha.recaptcha.ReCaptchaImpl;
@@ -96,8 +97,12 @@ public class AccountController extends HttpServlet {
 		    	hs.setAttribute("fk_enroll_acc", fk_part_acc);
 		    	attempt = dao.checkLoginAttempt(username);
 		    	
+		    	LogDao logDao = new LogDao();
+		    	
 		    	if (role != null && attempt > 0){
 		    		
+		    		//log student login activity
+		    		logDao.logLogin(username);
 		    		//password correct
 		    		dao.updateLoginAttempt(username);
 				    if(role==1){
@@ -111,6 +116,10 @@ public class AccountController extends HttpServlet {
 		    	} 
 		    	else {
 		    		attempt = dao.checkLoginAttempt(username);
+		    		
+		    		//log student failed login activity
+		    		logDao.logFailLogin(username);
+		    		
 		     		if(attempt<=0)
 		    		{
 						 System.out.println("AccountController LOCKED");
