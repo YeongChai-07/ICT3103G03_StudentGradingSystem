@@ -14,6 +14,9 @@ import com.sgs.util.DbUtil;
 public class AccountDao {
 
 	private Connection connection;
+	private Statement statement = null;
+	private PreparedStatement preparedStatement = null;
+	private ResultSet rs = null;
 
 	public AccountDao() {
 		connection = DbUtil.getConnection();
@@ -33,8 +36,9 @@ public class AccountDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} finally {close();}
 		return salt;
+		
 	}
 	public Integer checkPassword(String uname, String passw)
 	{
@@ -55,7 +59,9 @@ public class AccountDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally {close();}
 		return role;
+		
 	}
 	
 	public Integer getAccountId(String uname, String passw)
@@ -77,6 +83,7 @@ public class AccountDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally {close();}
 		return fk_part_acc;
 	}
 	
@@ -95,7 +102,9 @@ public class AccountDao {
 		}
 		catch(Exception e){}
 
+		finally {close();}
 		return acc;
+		
 	}
 	
 	public void updatePassword(Account acc)
@@ -108,6 +117,7 @@ public class AccountDao {
 			int i = preparedStatement.executeUpdate();
 		}
 		catch(Exception e){}
+		close();
 	}
 	
 	public Integer checkLoginAttempt(String uname){
@@ -124,7 +134,9 @@ public class AccountDao {
 		}
 		catch(Exception e){}
 
+		finally {close();}
 		return attempt;
+	
 	}
 	
 	
@@ -137,7 +149,7 @@ public class AccountDao {
 			
 		}
 		catch(Exception e){}
-
+		finally {close();}
 	}
 	public void updateLoginAttempt(String uname){
 		
@@ -147,6 +159,14 @@ public class AccountDao {
 			int i = preparedStatement.executeUpdate();
 		}
 		catch(Exception e){}
-	}
-
+		finally {close();}
+	} 
+	//Close all connections
+		private void close() {
+			try {
+				if (rs != null) { rs.close(); }
+				if (preparedStatement != null) { preparedStatement.close(); }
+				if (connection != null) { connection.close(); }
+			} catch (Exception e) {}
+		}
 }
