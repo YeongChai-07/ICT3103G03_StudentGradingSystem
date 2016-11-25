@@ -10,15 +10,16 @@ loaded in faculty_addmarks.jsp.
     pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
+//Retrieve lecturer username and role
 session = request.getSession();
-//retrieve username and role
 String username= (String)session.getAttribute("uname");
 Integer urole = (Integer)session.getAttribute("urole");
 
-System.out.println("uname = " + username +". urole = " + urole + ".");
-
 if (username==null || urole !=1 || username == null && urole != 1) {
-	response.sendRedirect("login.jsp?invaliduser");
+	request.setAttribute("message", "Please login! - Test");
+    request.getRequestDispatcher("/login.jsp").forward(request, response);
+    return;
+	//response.sendRedirect("login.jsp?invaliduser");
 }
 else
 {

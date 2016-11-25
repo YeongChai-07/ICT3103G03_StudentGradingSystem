@@ -9,7 +9,19 @@ retrieved from the database will be done.
 @since 2016-11-01 
 
 -->
+<%
+session = request.getSession();
+String username= (String)session.getAttribute("uname");
+Integer urole = (Integer)session.getAttribute("urole");
+System.out.println(username);
+if (username==null || urole !=1 || username == null && urole != 1 ){
+	request.setAttribute("message", "Please login! - Test");
+    request.getRequestDispatcher("/login.jsp").forward(request, response);
+    return;
+	//response.sendRedirect("login.jsp?invaliduser");
+}
 
+%> 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%> 
   <%@page import="java.sql.*" %>
@@ -46,11 +58,11 @@ where the student name and the faculty's ID will be passed in. -->
 	  ResultSet resultSet = preparedStatement.executeQuery();
 	  
 	  while (resultSet.next()) {
-		  String username = resultSet.getString("username");
+		  String username2 = resultSet.getString("username");
 		  String name = resultSet.getString("name");
 		  String modname = resultSet.getString("modname");
 		  
-		  Object[] student = {username,name,modname};
+		  Object[] student = {username2,name,modname};
 		  studentList.add(student);
 	  }
 	  //session.setAttribute("studentObject",studentList);

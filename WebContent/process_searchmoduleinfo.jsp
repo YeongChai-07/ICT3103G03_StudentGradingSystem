@@ -2,8 +2,18 @@
     pageEncoding="ISO-8859-1"%>
  <%@page import= "com.sgs.util.DbUtil" %>
   <%@page import="java.sql.*" %>
-    
+  
   <%
+  session = request.getSession();
+  String username= (String)session.getAttribute("uname");
+  Integer urole = (Integer)session.getAttribute("urole");
+  System.out.println(username);
+  if (username==null || urole !=2 || username == null && urole != 2 ){
+  	request.setAttribute("message", "Please login! - Test");
+      request.getRequestDispatcher("/login.jsp").forward(request, response);
+      return;
+  	//response.sendRedirect("login.jsp?invaliduser");
+  }
   	/* Description: The below block of codes uses the input from the user (Search terms) that was sanitized and executes it a WHERE condition
   	* 				for the SQL query for retrieving the matching module information/details
   	*   INPUT: Search terms (from the Search Module Info page)
@@ -123,7 +133,8 @@
 		request.setAttribute("moduleDesc", moduleDesc);
 		request.setAttribute("IsPosted", true);
 		request.getRequestDispatcher("student_home.jsp").forward(request, response);
-  %>
+ 
+%>
   <%!
 	/* Description: This function does the Server-Side input sanization from the user's input (Search terms) and returns the sanitized copy of
 	*				it.
@@ -148,4 +159,5 @@
 		
 		return sanitizedStr;
 	}
+	
   %>

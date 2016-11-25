@@ -92,6 +92,7 @@ public class AccountController extends HttpServlet implements java.io.Serializab
 	
 			 	Encrypt en = new Encrypt();
 			    checkPassw = en.encryptPass(sbToCheck.toString());
+			    System.out.println(checkPassw);
 			    
 			    //Check if password match with db password
 			    role = dao.checkPassword(username, checkPassw);
@@ -128,19 +129,28 @@ public class AccountController extends HttpServlet implements java.io.Serializab
 		     		if(attempt<=0)
 		    		{
 						 System.out.println("AccountController LOCKED");
-						 forward = ACCOUNTLOCKED;
+						 request.setAttribute("message", "Account Locked - Test");
+				         request.getRequestDispatcher("/login.jsp").forward(request, response);
+				         return;
+						 //forward = ACCOUNTLOCKED;
 		    		}
 		     		else{
 			    		 dao.reduceLoginAttempt(username);
 						 System.out.println("AccountController ERROR ATTEMPT");
-						 forward = ERRORATTEMPT;
+						 request.setAttribute("message", "Error Attempt - Test");
+				         request.getRequestDispatcher("/login.jsp").forward(request, response);
+				         return;
+						 //forward = ERRORATTEMPT;
 		    		}
 				 }
 	         } 
 	         else 
 	         {
 	        	 System.out.println("Invalid login credentials");
-	        	 forward = ERROR;
+	        	 request.setAttribute("message", "Invalid Login credentials - Test");
+		         request.getRequestDispatcher("/login.jsp").forward(request, response);
+		         return;
+	        	 //forward = ERROR;
 	        	// JOptionPane.showMessageDialog(null, "Invalid CAPTCHA.", "Error",
                   //  JOptionPane.ERROR_MESSAGE);
 	        	
@@ -154,10 +164,10 @@ public class AccountController extends HttpServlet implements java.io.Serializab
 			}
     	 } else {
     		 System.out.println("Invalid CAPTCHA");
-    		 //request.setAttribute("message", "Invalid Captcha - Test");
-	        // request.getRequestDispatcher("/login.jsp").forward(request, response);
-	        // return;
-    		 response.sendRedirect(ERROR);
+    		 request.setAttribute("message", "Invalid Captcha - Test");
+	         request.getRequestDispatcher("/login.jsp").forward(request, response);
+	         return;
+    		// response.sendRedirect(ERROR);
     	 }
     }
     

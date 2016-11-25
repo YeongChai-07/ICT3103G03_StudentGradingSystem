@@ -10,16 +10,16 @@ There are 3 functionalities for faculty.
 		<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.util.*" %>
 <%
-System.out.println("faculty_home.jsp");
+//Retrieve lecturer username and role
 session = request.getSession();
-
-//retrieve username and role
 String username= (String)session.getAttribute("uname");
 Integer urole = (Integer)session.getAttribute("urole");
 
-if (username==null || urole!=1) {
-	System.out.println("Error. Login failed.");
-	response.sendRedirect("login.jsp?invaliduser");
+if (username==null || urole !=1 || username == null && urole != 1) {
+	request.setAttribute("message", "Please login! - Test");
+    request.getRequestDispatcher("/login.jsp").forward(request, response);
+    return;
+	//response.sendRedirect("login.jsp?invaliduser");
 }
 else
 {
