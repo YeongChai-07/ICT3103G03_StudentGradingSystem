@@ -11,20 +11,21 @@ import javax.servlet.http.HttpSession;
 
 import com.sgs.dao.ModuleDao;
 
-import java.security.*;
+import java.sql.SQLException;
 
 public class StudentController extends HttpServlet {
-    private String STUDENT_SEARCH = "./student_home.jsp";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1374562718627257150L;
+	private String STUDENT_SEARCH = "./student_home.jsp";
     private String STUDENT_VIEWMODULES = "./student_enrolledmodules.jsp";
     private String STUDENT_VIEWGRADES = "./student_viewgrades.jsp";
     private String CHANGE_PASS = "./change_password.jsp";
     private String ERROR = "/login.jsp?invaliduser";
-    private ModuleDao dao;
-    private HttpSession hs; 
     
     public StudentController() {
     	super();
-    	dao = new ModuleDao();
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -59,8 +60,9 @@ public class StudentController extends HttpServlet {
     }
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
-    	hs = request.getSession();
+
+    	ModuleDao dao = new ModuleDao();
+    	HttpSession hs = request.getSession();
     	System.out.println("StudentController doPost");
     	
         String forward="";
@@ -68,6 +70,7 @@ public class StudentController extends HttpServlet {
         
 	    result = request.getParameter("action");
 	    
+	    try{
 	    if (result.equals("search")){
 	    	forward = STUDENT_SEARCH;
 	    }else if (result.equals("modules")){
@@ -83,6 +86,7 @@ public class StudentController extends HttpServlet {
 	    	forward = ERROR;
 	    	
 	    }
+	    }catch(SQLException e){}
 	    
 	    System.out.println(forward);
 	    RequestDispatcher view = request.getRequestDispatcher(forward);

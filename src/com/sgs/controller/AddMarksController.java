@@ -16,17 +16,18 @@ import com.sgs.dao.LogDao;
 import com.sgs.dao.ModuleDao;
 import com.sgs.model.StudentModule;
 
-public class AddMarksController extends HttpServlet {
+public class AddMarksController extends HttpServlet implements java.io.Serializable  {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6465803230560981680L;
 	private String ADD_MARKS = "/faculty_addmarks.jsp";
     private String FACULTY_LISTSTU = "./faculty_liststudent.jsp";
 	private String CANCEL = "/FacultyController";
-	private ModuleDao dao;
-	private HttpSession hs; 
 	
 	public AddMarksController() {
 		super();
-		dao = new ModuleDao();
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,7 +63,9 @@ public class AddMarksController extends HttpServlet {
 	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	hs = request.getSession();
+
+		ModuleDao dao = new ModuleDao();
+    	HttpSession hs = request.getSession();
     	System.out.println("AddMarksController doPost");
     	
     	String forward = "";

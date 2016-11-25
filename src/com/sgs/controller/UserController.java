@@ -1,6 +1,7 @@
 package com.sgs.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,19 +17,24 @@ import com.sgs.model.User;
 
 public class UserController extends HttpServlet {
 	
-    private String INSERT_OR_EDIT = "/user.jsp";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4194430325713756002L;
+	private String INSERT_OR_EDIT = "/user.jsp";
     private String LIST_USER = "/listUser.jsp";
-    private UserDao dao;
-
+    
     public UserController() {
         super();
-        dao = new UserDao();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String forward="";
+
+        UserDao dao = new UserDao();
+    	String forward="";
         String action = request.getParameter("action");
 
+        try{
         if (action.equalsIgnoreCase("delete")){
             int userId = Integer.parseInt(request.getParameter("userId"));
             dao.deleteUser(userId);
@@ -45,13 +51,16 @@ public class UserController extends HttpServlet {
         } else {
             forward = INSERT_OR_EDIT;
         }
+        }catch(SQLException e){}
 
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = new User();
+
+        UserDao dao = new UserDao();
+    	User user = new User();
         user.setFirstName(request.getParameter("firstName"));
         user.setLastName(request.getParameter("lastName"));
         try {
@@ -62,6 +71,8 @@ public class UserController extends HttpServlet {
         }
         user.setEmail(request.getParameter("email"));
         String userid = request.getParameter("userid");
+        
+        try{
         if(userid == null || userid.isEmpty())
         {
             dao.addUser(user);
@@ -74,5 +85,6 @@ public class UserController extends HttpServlet {
         RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
         request.setAttribute("users", dao.getAllUsers());
         view.forward(request, response);
+        }catch(SQLException e){}
     }
 }

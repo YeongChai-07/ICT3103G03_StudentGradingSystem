@@ -19,10 +19,11 @@ public class UserDao {
 		connection = DbUtil.getConnection();
 	}
 
-	public void addUser(User user) {
+	public void addUser(User user) throws SQLException {
+		
+		PreparedStatement preparedStatement = connection.prepareStatement("insert into users(firstname,lastname,dob,email) values (?, ?, ?, ? )");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("insert into users(firstname,lastname,dob,email) values (?, ?, ?, ? )");
+
 			// Parameters start with 1
 			preparedStatement.setString(1, user.getFirstName());
 			preparedStatement.setString(2, user.getLastName());
@@ -30,33 +31,36 @@ public class UserDao {
 			preparedStatement.setString(4, user.getEmail());
 			preparedStatement.executeUpdate();
 			
-			preparedStatement.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 	}
 	
-	public void deleteUser(int userId) {
+	public void deleteUser(int userId) throws SQLException {
+
+		PreparedStatement preparedStatement = connection.prepareStatement("delete from users where userid=?");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("delete from users where userid=?");
 			// Parameters start with 1
 			preparedStatement.setInt(1, userId);
 			preparedStatement.executeUpdate();
 			
-			preparedStatement.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 	}
 	
-	public void updateUser(User user) {
+	public void updateUser(User user) throws SQLException {
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("update users set firstname=?, lastname=?, dob=?, email=?" +
+						"where userid=?");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("update users set firstname=?, lastname=?, dob=?, email=?" +
-							"where userid=?");
+	
 			// Parameters start with 1
 			preparedStatement.setString(1, user.getFirstName());
 			preparedStatement.setString(2, user.getLastName());
@@ -65,17 +69,18 @@ public class UserDao {
 			preparedStatement.setInt(5, user.getUserid());
 			preparedStatement.executeUpdate();
 			
-			preparedStatement.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 	}
 
-	public List<User> getAllUsers() {
+	public List<User> getAllUsers() throws SQLException {
 		List<User> users = new ArrayList<User>();
+		Statement statement=connection.createStatement();
 		try {
-			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from users");
 			while (rs.next()) {
 				User user = new User();
@@ -87,19 +92,19 @@ public class UserDao {
 				users.add(user);
 			}
 			
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} 
+		statement.close();
 
 		return users;
 	}
 	
-	public User getUserById(int userId) {
+	public User getUserById(int userId) throws SQLException {
 		User user = new User();
+
+		PreparedStatement preparedStatement = connection.prepareStatement("select * from users where userid=?");
 		try {
-			PreparedStatement preparedStatement = connection.
-					prepareStatement("select * from users where userid=?");
 			preparedStatement.setInt(1, userId);
 			ResultSet rs = preparedStatement.executeQuery();
 			
@@ -111,9 +116,10 @@ public class UserDao {
 				user.setEmail(rs.getString("email"));
 			}
 			
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 
 		return user;

@@ -14,70 +14,73 @@ public class LogDao {
 		connection = DbUtil.getConnection();
 	}
 	
-	public void logLogin(String username){
-		
+	public void logLogin(String username) throws SQLException{
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("INSERT INTO log (action) "
+						+ "VALUES(?)");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("INSERT INTO log (action) "
-							+ "VALUES(?)");
 			preparedStatement.setString(1, "User " + username + " has logged in.");
 			preparedStatement.executeUpdate();
 			
 			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 	}
 	
-	public void logFailLogin(String username){
-		
+	public void logFailLogin(String username) throws SQLException{
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("INSERT INTO log (action) "
+						+ "VALUES(?)");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("INSERT INTO log (action) "
-							+ "VALUES(?)");
 			preparedStatement.setString(1, "User " + username + " has failed to log in.");
 			preparedStatement.executeUpdate();
 			
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 	}
 	
-	public void logChangePassword(String username){
+	public void logChangePassword(String username) throws SQLException{
 		
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("INSERT INTO log (action) "
+						+ "VALUES(?)");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("INSERT INTO log (action) "
-							+ "VALUES(?)");
 			preparedStatement.setString(1, "User " + username + " has changed the password.");
 			preparedStatement.executeUpdate();
 			
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 		
 	}
 	
-	public void logAddMarks(String faculty, String student, String module){
+	public void logAddMarks(String faculty, String student, String module) throws SQLException{
 		
 		System.out.println(faculty);
 		System.out.println(student);
 		System.out.println(module);
 		
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("INSERT INTO log (action) "
+						+ "VALUES(?)");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("INSERT INTO log (action) "
-							+ "VALUES(?)");
 			preparedStatement.setString(1, "Faculty " + faculty 
 					+ " graded student " + student 
 					+ " on " + module + " module.");
 			preparedStatement.executeUpdate();
 			
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 		
 	}

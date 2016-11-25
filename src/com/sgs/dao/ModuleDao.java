@@ -20,17 +20,17 @@ public class ModuleDao {
 	}
 	
 	/*listModules will query the database based on the user logged in.*/
-	public List<Module> listModules(String username){
+	public List<Module> listModules(String username) throws SQLException{
 		System.out.println("ModuleDAO - listModule");
 		System.out.println(username);
 		List<Module> results = new ArrayList<Module>();
 		
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("SELECT * FROM sgs.module WHERE idMod IN ("
+						+ "SELECT fk_enroll_mod FROM sgs.enroll WHERE fk_enroll_acc = ("
+						+ "SELECT idAcc FROM sgs.account WHERE username = ?))"); 
 		try{
 			//Query for database
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("SELECT * FROM sgs.module WHERE idMod IN ("
-							+ "SELECT fk_enroll_mod FROM sgs.enroll WHERE fk_enroll_acc = ("
-							+ "SELECT idAcc FROM sgs.account WHERE username = ?))"); 
 			preparedStatement.setString(1, username);
 			
 			//Perform query and get result
@@ -46,29 +46,28 @@ public class ModuleDao {
 				System.out.println(module.getModName());
 				results.add(module);
 			}
-			
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 		return results;
 	}
 	
 	
 	/*listGrades will pull from the database grades of students who logged in.*/
-	public List<StudentGrade> listGrades(String username){
+	public List<StudentGrade> listGrades(String username) throws SQLException{
 		System.out.println("ModuleDAO - listModule");
 		System.out.println(username);
 		List<StudentGrade> results = new ArrayList<StudentGrade>();
-		
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("SELECT sgs.module.idMod, sgs.module.modName, sgs.enroll.grade "
+						+ "FROM sgs.module "
+						+ "JOIN sgs.enroll ON sgs.enroll.fk_enroll_mod = sgs.module.idMod "
+						+ "JOIN sgs.account ON sgs.enroll.fk_enroll_acc = sgs.account.idAcc "
+						+ "WHERE sgs.account.username = ?"); 
 		try{
 			//Query for database
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("SELECT sgs.module.idMod, sgs.module.modName, sgs.enroll.grade "
-							+ "FROM sgs.module "
-							+ "JOIN sgs.enroll ON sgs.enroll.fk_enroll_mod = sgs.module.idMod "
-							+ "JOIN sgs.account ON sgs.enroll.fk_enroll_acc = sgs.account.idAcc "
-							+ "WHERE sgs.account.username = ?"); 
 			preparedStatement.setString(1, username);
 			
 			//Perform query and get result
@@ -89,10 +88,10 @@ public class ModuleDao {
 				System.out.println(studentGrade.getModName());
 				results.add(studentGrade);
 			}
-			
-			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			preparedStatement.close();
 		}
 		return results;
 	}
@@ -101,22 +100,22 @@ public class ModuleDao {
 	public void addMarks(float marks, String modId, String username) throws Exception{
 		System.out.println("ModuleDAO - addMarks");
 		System.out.println(modId + ", " + username);
-		
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("UPDATE Enroll SET grade = ? WHERE fk_enroll_mod = ? "
+						+ "AND fk_enroll_acc in "
+						+ "(SELECT idAcc FROM account WHERE username = ?)"); 
 		try{
 			//Query for update database
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("UPDATE Enroll SET grade = ? WHERE fk_enroll_mod = ? "
-							+ "AND fk_enroll_acc in "
-							+ "(SELECT idAcc FROM account WHERE username = ?)"); 
 			preparedStatement.setFloat(1, marks);
 			preparedStatement.setString(2, modId);
 			preparedStatement.setString(3, username);
 			
 			//Perform query and get result
 			preparedStatement.executeUpdate();
-			preparedStatement.close();
 		} catch (Exception e){
 			throw e;
+		} finally{
+			preparedStatement.close();
 		}
 	}
 	

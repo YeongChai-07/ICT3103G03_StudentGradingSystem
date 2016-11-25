@@ -1,6 +1,11 @@
 package com.sgs.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,35 +13,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sgs.controller.AccountController.Encrypt;
 import com.sgs.dao.AccountDao;
 import com.sgs.dao.LogDao;
 import com.sgs.model.Account;
 
-import java.security.*;
-import java.util.UUID;
-
 public class PasswordController extends HttpServlet {
 
-    private String ERROR = "/login.jsp?error";
-    private String LOGOUT = "./logout.jsp";
-    private String CHANGEPASS = "./change_password.jsp";
-    private AccountDao dao;
-    private HttpSession hs; 
-    
-    public PasswordController() {
-        super();
-        dao = new AccountDao();
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1719251291926184057L;
+	 private String ERROR = "/login.jsp?error";
+     private String LOGOUT = "./logout.jsp";
+     private String CHANGEPASS = "./change_password.jsp";
+     
+     public PasswordController() {
+         super();
+     }
+     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	System.out.println("PasswordController doGet");
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    	 AccountDao dao = new AccountDao();
     	 Account acc = new Account();
-    	 hs = request.getSession();
     	 System.out.println("PasswordController doPost");
 
 		 StringBuffer sbToCheckOldPassw = new StringBuffer();
@@ -48,7 +45,12 @@ public class PasswordController extends HttpServlet {
 		 conpass = request.getParameter("conpassword");
 		 username = request.getParameter("hide");
 		 
-		 acc = dao.getPasswordSecurity(username);
+		 try {
+			acc = dao.getPasswordSecurity(username);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 
 		 if(acc!=null){
 			 sbToCheckOldPassw.append(acc.getSecurityCode());
@@ -56,7 +58,12 @@ public class PasswordController extends HttpServlet {
 			 
 			 Encrypt en = new Encrypt();
 
-			 checkPassw = en.EncryptPass(sbToCheckOldPassw.toString());
+			 try {
+				checkPassw = en.encryptPass(sbToCheckOldPassw.toString());
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			 
 			 if(Newpass.equals(conpass))
 			 {
@@ -71,7 +78,8 @@ public class PasswordController extends HttpServlet {
 				System.out.println(uuid);
 				
 				Encrypt en2 = new Encrypt();
-				String toUpdatePassword = en2.EncryptPass(saltANDpassw);
+				try{
+				String toUpdatePassword = en2.encryptPass(saltANDpassw);
 				
 				Account accUpdate = new Account();
 				accUpdate.setUsername(username);
@@ -82,6 +90,14 @@ public class PasswordController extends HttpServlet {
 				
 				LogDao logDao = new LogDao();
 				logDao.logChangePassword(username);
+				
+				}catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				System.out.println("Password changed successfully");
 		        response.sendRedirect(LOGOUT);
@@ -99,25 +115,21 @@ public class PasswordController extends HttpServlet {
 			}
 		 }
     }
-    
-    protected static class Encrypt {
-		StringBuffer sb = new StringBuffer();
-	    public String EncryptPass(String str) {
-	    	try{
-		    	//hashing method
-		    	MessageDigest md = MessageDigest.getInstance("SHA-256");
-		    	md.update(str.getBytes());
-		
-		    	byte byteData[] = md.digest();
-		
-		    	//convert the byte to hex format method 1
-		    	for (int i = 0; i < byteData.length; i++) {
-		    	 sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-		    	}
-	    	}catch(Exception e){
-	    		
-	    	}
-	      return sb.toString();
-	    }
-	  }
+     protected static class Encrypt {
+         StringBuffer hexString = new StringBuffer();
+ 	    public String encryptPass(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+ 	    	
+ 		  //hashing method
+     	  MessageDigest md = MessageDigest.getInstance("SHA-256");
+     	  byte[] hash = md.digest(str.getBytes("UTF-8"));
+
+           for (int i = 0; i < hash.length; i++) {
+               String hex = Integer.toHexString(0xff & hash[i]);
+               if(hex.length() == 1) hexString.append('0');
+               hexString.append(hex);
+           	}
+ 	      return hexString.toString();
+ 	    }
+ 	  }
 }
+

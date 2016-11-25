@@ -11,26 +11,24 @@ import javax.servlet.http.HttpSession;
 
 import com.sgs.dao.FacultyDao;
 
-import java.security.*;
-
 public class FacultyController extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2831237519433956321L;
 	private String FACULTY_SEARCH = "./faculty_home.jsp";
     private String FACULTY_LISTMOD = "./faculty_listmodule.jsp";
     private String FACULTY_LISTSTU = "./faculty_liststudent.jsp";
     private String CHANGE_PASS = "./change_password.jsp";
     private String ERROR = "/login.jsp?invaliduser";
-    private FacultyDao dao;
-    private HttpSession hs; 
     
     public FacultyController() {
         super();
-        dao = new FacultyDao();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    	hs = request.getSession();
     	System.out.println("FacultyController doGet");
     	
 //        String forward="";
@@ -62,7 +60,8 @@ public class FacultyController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	hs = request.getSession();
+        FacultyDao dao = new FacultyDao();
+    	HttpSession hs = request.getSession();
     	System.out.println("FacultyController doPost");
     	
         String forward="";
@@ -72,6 +71,7 @@ public class FacultyController extends HttpServlet {
         result = request.getParameter("action");
         System.out.println(result);
         
+        try{
 	    if (result.equals("search")){
             forward = FACULTY_SEARCH;
         }else if (result.equals("mod")){
@@ -85,7 +85,7 @@ public class FacultyController extends HttpServlet {
             forward = ERROR;
         }
         
-
+        }catch(Exception e){}
         
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);

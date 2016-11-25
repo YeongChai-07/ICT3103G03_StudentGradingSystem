@@ -1,36 +1,38 @@
 package com.sgs.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
 
 import com.sgs.dao.AccountDao;
 import com.sgs.dao.LogDao;
 
 import java.security.*;
+import java.sql.SQLException;
+
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
-public class AccountController extends HttpServlet {
+public class AccountController extends HttpServlet implements java.io.Serializable {
 
-    private String STUDENT = "./student_home.jsp";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8594459315365231886L;
+	private String STUDENT = "./student_home.jsp";
     private String FACULTY = "./faculty_home.jsp";
     private String ERROR = "./login.jsp?error";
     private String ERRORATTEMPT = "./login.jsp?errorattempt";
     private String ACCOUNTLOCKED = "./login.jsp?locked";
     private String LOGOUT = "./logout.jsp";
-    private AccountDao dao;
-    private HttpSession hs; 
     
     public AccountController() {
         super();
-        dao = new AccountDao();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,7 +52,8 @@ public class AccountController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    	 hs = request.getSession();
+         AccountDao dao = new AccountDao();
+    	 HttpSession hs = request.getSession();
     	 System.out.println("AccountController doPost");
     	 
     	 //Validating CAPTCHA from login page
@@ -79,6 +82,8 @@ public class AccountController extends HttpServlet {
 	         System.out.println(username);
 	         
 	         //Get security code from user name
+
+	         try{
 	         salt= dao.getSalt(username);
 	         if(!salt.equals(""))
 	         {
@@ -86,7 +91,7 @@ public class AccountController extends HttpServlet {
 	 			sbToCheck.append(passw);
 	
 			 	Encrypt en = new Encrypt();
-			    checkPassw = en.EncryptPass(sbToCheck.toString());
+			    checkPassw = en.encryptPass(sbToCheck.toString());
 			    
 			    //Check if password match with db password
 			    role = dao.checkPassword(username, checkPassw);
@@ -142,7 +147,11 @@ public class AccountController extends HttpServlet {
 	         }
 	        
 	         response.sendRedirect(forward);
-	         
+	
+	    	 }catch(SQLException e){} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	 } else {
     		 System.out.println("Invalid CAPTCHA");
     		 //request.setAttribute("message", "Invalid Captcha - Test");
@@ -153,23 +162,19 @@ public class AccountController extends HttpServlet {
     }
     
     protected static class Encrypt {
-		StringBuffer sb = new StringBuffer();
-	    public String EncryptPass(String str) {
-	    	try{
-		    	//hashing method
-		    	MessageDigest md = MessageDigest.getInstance("SHA-256");
-		    	md.update(str.getBytes());
-		
-		    	byte byteData[] = md.digest();
-		
-		    	//convert the byte to hex format method 1
-		    	for (int i = 0; i < byteData.length; i++) {
-		    	 sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-		    	}
-	    	}catch(Exception e){
-	    		
-	    	}
-	      return sb.toString();
+        StringBuffer hexString = new StringBuffer();
+	    public String encryptPass(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	    	
+		  //hashing method
+    	  MessageDigest md = MessageDigest.getInstance("SHA-256");
+    	  byte[] hash = md.digest(str.getBytes("UTF-8"));
+
+          for (int i = 0; i < hash.length; i++) {
+              String hex = Integer.toHexString(0xff & hash[i]);
+              if(hex.length() == 1) hexString.append('0');
+              hexString.append(hex);
+          	}
+	      return hexString.toString();
 	    }
 	  }
 }
