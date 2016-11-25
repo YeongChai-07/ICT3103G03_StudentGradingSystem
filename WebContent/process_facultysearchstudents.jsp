@@ -15,7 +15,7 @@ String username= (String)session.getAttribute("uname");
 Integer urole = (Integer)session.getAttribute("urole");
 System.out.println(username);
 if (username==null || urole !=1 || username == null && urole != 1 ){
-	request.setAttribute("message", "Please login! - Test");
+	request.setAttribute("message", "Please login!");
     request.getRequestDispatcher("/login.jsp").forward(request, response);
     return;
 	//response.sendRedirect("login.jsp?invaliduser");

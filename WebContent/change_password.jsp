@@ -1,13 +1,18 @@
-<%
+<% 
 session = request.getSession();
 String uname= (String)session.getAttribute("uname");
 Integer urole = (Integer)session.getAttribute("urole");
+System.out.println(uname);
 if (uname==null) {
-	response.sendRedirect("login.jsp?invaliduser");
+	request.setAttribute("message", "Please login!");
+    request.getRequestDispatcher("/login.jsp").forward(request, response);
+    return;
+	//response.sendRedirect("login.jsp?invaliduser");
 }
 else
 {
-%>
+%> 
+
 <html>
 <head>
 <title>Student Grading System</title>

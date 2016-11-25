@@ -30,6 +30,8 @@ public class PasswordController extends HttpServlet {
      public PasswordController() {
          super();
      }
+     /*the following codes illustrates searching for the security "salt" and 
+     concat with password and hash with the algorithm and finally change password before validating the original password*/
      protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     	 AccountDao dao = new AccountDao();
@@ -124,6 +126,8 @@ public class PasswordController extends HttpServlet {
 			}
 		 }
     }
+     
+     //Encrypt password with SHA-256 algorithm
      protected static class Encrypt {
          StringBuffer hexString = new StringBuffer();
  	    public String encryptPass(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {

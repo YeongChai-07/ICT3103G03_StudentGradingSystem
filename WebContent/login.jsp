@@ -26,7 +26,18 @@
 	            	<div class="col-lg-4" >
 	            	<h1 align="center">Welcome to SGS</h1>
 	            		<div class="panel panel-default">
-	            			<div class="panel-heading"><b>Please login to proceed.</b></div>
+	            			<div class="panel-heading"><b>Please login to proceed.</b>
+	            			 </br>
+	            			 <p style="color: red; text-align:center"><%
+	                            	if(request.getAttribute("message") != null)
+	                            	out.print(request.getAttribute("message"));
+	                            
+	                            if(request.getParameter("error") != null){
+	                            	out.print(request.getParameter("error"));
+	                            }
+	                            %>
+	                            </p>
+	            			</div>
 	            			<div class="panel-body form-horizontal">
 	            			
 	            				<div class="form-group">
@@ -51,14 +62,7 @@
 	                            &nbsp;&nbsp;
 	                            <input type="reset" value="Reset" />
 	                            <br/>
-	                            <%
-	                            	if(request.getAttribute("message") != null)
-	                            	out.print(request.getAttribute("message"));
-	                            
-	                            if(request.getParameter("error") != null){
-	                            	out.print(request.getParameter("error"));
-	                            }
-	                            %>
+	                           
 	                            <br/>
 	                            <!-- To display the Recaptcha widget -->
 	                    		<%

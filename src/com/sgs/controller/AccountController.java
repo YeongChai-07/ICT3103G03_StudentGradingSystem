@@ -173,7 +173,7 @@ public class AccountController extends HttpServlet implements java.io.Serializab
 			}
     	 } else {
     		 System.out.println("Invalid CAPTCHA");
-    		 request.setAttribute("message", "Invalid Captcha - Test");
+    		 request.setAttribute("message", "Invalid Captcha");
 	         request.getRequestDispatcher("/login.jsp").forward(request, response);
 	        return;
     		 //response.sendRedirect(ERROR);

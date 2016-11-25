@@ -1,5 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%
+session = request.getSession();
+String username= (String)session.getAttribute("uname");
+Integer urole = (Integer)session.getAttribute("urole");
+System.out.println(username);
+if (username==null || urole !=2 || username == null && urole != 2 ){
+	request.setAttribute("message", "Please login!");
+    request.getRequestDispatcher("/login.jsp").forward(request, response);
+    return;
+	//response.sendRedirect("login.jsp?invaliduser");
+}
+
+%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
