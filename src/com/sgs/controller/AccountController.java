@@ -1,6 +1,7 @@
 package com.sgs.controller;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -87,6 +88,7 @@ public class AccountController extends HttpServlet {
 	
 			 	Encrypt en = new Encrypt();
 			    checkPassw = en.EncryptPass(sbToCheck.toString());
+			    System.out.println(checkPassw);
 			    
 			    //Check if password match with db password
 			    role = dao.checkPassword(username, checkPassw);
@@ -158,7 +160,7 @@ public class AccountController extends HttpServlet {
 	    	try{
 		    	//hashing method
 		    	MessageDigest md = MessageDigest.getInstance("SHA-256");
-		    	md.update(str.getBytes());
+		    	md.update(str.getBytes(Charset.forName("US-ASCII")));
 		
 		    	byte byteData[] = md.digest();
 		

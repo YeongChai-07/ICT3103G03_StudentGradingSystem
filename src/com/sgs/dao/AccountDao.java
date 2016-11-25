@@ -56,6 +56,7 @@ public class AccountDao {
 			if(rs.next()){
 				 //check id
 				 role = rs.getInt("fk_acc_role");
+				 System.out.println("AccountDao role: " + role);
 			}
 			
 			preparedStatement.close();
@@ -121,8 +122,7 @@ public class AccountDao {
 			preparedStatement.setString(1, acc.getSecurityCode());
 			preparedStatement.setString(2, acc.getPassword());
 			preparedStatement.setString(3, acc.getUsername());
-			int i = preparedStatement.executeUpdate();
-			
+			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		}
 		catch(Exception e){}
@@ -156,8 +156,7 @@ public class AccountDao {
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("Update account set login_attempt=login_attempt-1 where username=?");
 			preparedStatement.setString(1, uname);
-			int i = preparedStatement.executeUpdate();
-			
+			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		}
 		catch(Exception e){}
@@ -168,8 +167,7 @@ public class AccountDao {
 		try{
 			PreparedStatement preparedStatement = connection.prepareStatement("Update account set login_attempt = 4 where username=?");
 			preparedStatement.setString(1, uname);
-			int i = preparedStatement.executeUpdate();
-			
+			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		}
 		catch(Exception e){}

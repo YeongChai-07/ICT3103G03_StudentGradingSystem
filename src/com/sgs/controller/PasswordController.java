@@ -1,6 +1,7 @@
 package com.sgs.controller;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +23,7 @@ public class PasswordController extends HttpServlet {
     private String LOGOUT = "./logout.jsp";
     private String CHANGEPASS = "./change_password.jsp";
     private AccountDao dao;
+    private Account acc;
     private HttpSession hs; 
     
     public PasswordController() {
@@ -35,7 +37,7 @@ public class PasswordController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    	 Account acc = new Account();
+    	 acc = new Account();
     	 hs = request.getSession();
     	 System.out.println("PasswordController doPost");
 
@@ -106,7 +108,7 @@ public class PasswordController extends HttpServlet {
 	    	try{
 		    	//hashing method
 		    	MessageDigest md = MessageDigest.getInstance("SHA-256");
-		    	md.update(str.getBytes());
+		    	md.update(str.getBytes(Charset.forName("US-ASCII")));
 		
 		    	byte byteData[] = md.digest();
 		
