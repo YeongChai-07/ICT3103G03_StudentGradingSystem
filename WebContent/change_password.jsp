@@ -89,7 +89,6 @@ var score = scorePassword(document.ChangePasswordForm.newpassword.value);
 	    
 if (score > 70)
 {
-alert('Password changed successfully. Please login again.');
 document.ChangePasswordForm.Submit();
 }
  else if (score > 50)

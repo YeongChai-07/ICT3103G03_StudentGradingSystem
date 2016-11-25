@@ -42,8 +42,17 @@ public class AccountController extends HttpServlet implements java.io.Serializab
         String result ="";
         
 	    result = request.getParameter("action");
+	    HttpSession hs = request.getSession(false);
+	    
 	    if (result.equals("out"))
-	    {
+	    {    
+	    	LogDao logDao = new LogDao();
+			try {
+				logDao.logLogOut(hs.getAttribute("uname").toString());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    	forward = LOGOUT;
 	    }
 	    request.getSession().invalidate();
@@ -106,7 +115,7 @@ public class AccountController extends HttpServlet implements java.io.Serializab
 		    	LogDao logDao = new LogDao();
 		    	
 		    	if (role != null && attempt > 0){
-		    		
+
 		    		//log student login activity
 		    		logDao.logLogin(username);
 		    		//password correct
@@ -129,28 +138,28 @@ public class AccountController extends HttpServlet implements java.io.Serializab
 		     		if(attempt<=0)
 		    		{
 						 System.out.println("AccountController LOCKED");
-						 request.setAttribute("message", "Account Locked - Test");
+						 request.setAttribute("message", "account locked");
 				         request.getRequestDispatcher("/login.jsp").forward(request, response);
-				         return;
+				        return;
 						 //forward = ACCOUNTLOCKED;
 		    		}
 		     		else{
 			    		 dao.reduceLoginAttempt(username);
 						 System.out.println("AccountController ERROR ATTEMPT");
-						 request.setAttribute("message", "Error Attempt - Test");
+						 request.setAttribute("message", "account error attempt");
 				         request.getRequestDispatcher("/login.jsp").forward(request, response);
-				         return;
-						 //forward = ERRORATTEMPT;
+				        return;
+						// forward = ERRORATTEMPT;
 		    		}
 				 }
 	         } 
 	         else 
 	         {
 	        	 System.out.println("Invalid login credentials");
-	        	 request.setAttribute("message", "Invalid Login credentials - Test");
-		         request.getRequestDispatcher("/login.jsp").forward(request, response);
-		         return;
 	        	 //forward = ERROR;
+	        	 request.setAttribute("message", "Invalid login credentials");
+		         request.getRequestDispatcher("/change_password.jsp").forward(request, response);
+		        return;
 	        	// JOptionPane.showMessageDialog(null, "Invalid CAPTCHA.", "Error",
                   //  JOptionPane.ERROR_MESSAGE);
 	        	
@@ -166,8 +175,8 @@ public class AccountController extends HttpServlet implements java.io.Serializab
     		 System.out.println("Invalid CAPTCHA");
     		 request.setAttribute("message", "Invalid Captcha - Test");
 	         request.getRequestDispatcher("/login.jsp").forward(request, response);
-	         return;
-    		// response.sendRedirect(ERROR);
+	        return;
+    		 //response.sendRedirect(ERROR);
     	 }
     }
     

@@ -90,6 +90,7 @@ public class PasswordController extends HttpServlet {
 				
 				LogDao logDao = new LogDao();
 				logDao.logChangePassword(username);
+				System.out.println("Change:"+username);
 				
 				}catch (NoSuchAlgorithmException e) {
 					// TODO Auto-generated catch block
@@ -100,18 +101,26 @@ public class PasswordController extends HttpServlet {
 				}
 				
 				System.out.println("Password changed successfully");
+                LogDao logDao1 = new LogDao();
+				try {
+					logDao1.logLogOut(username);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		        response.sendRedirect(LOGOUT);
 			    }
 				else {
 				System.out.println("Old Password doesn't match");
-				response.sendRedirect(CHANGEPASS);
-				
+				//response.sendRedirect(CHANGEPASS);
+				request.setAttribute("message", "Old password doesn't match");
+		        request.getRequestDispatcher("/change_password.jsp").forward(request, response);
+		        return;
 				}
 			}
 			else{
-
-				System.out.println("New/Confirm Password doesn't match");
-				response.sendRedirect(CHANGEPASS);
+				request.setAttribute("message", "New/Confirm Password doesn't match");
+		        request.getRequestDispatcher("/change_password.jsp").forward(request, response);
 			}
 		 }
     }

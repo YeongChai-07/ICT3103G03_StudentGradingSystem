@@ -27,11 +27,7 @@ public class SessionFilter implements Filter {
 		if(urlList.contains(url)){
 			allowedRequest = true;
 		}
-		
-//		if(url.startsWith("/css/") || url.startsWith("/js/") || url.startsWith("/font-awesome/") || url.startsWith("/images/")){ //url.startsWith("/css/") ||
-//			allowedRequest = true;
-//		}
-		
+
 		if(!allowedRequest){
 			HttpSession session = request.getSession(false);
 			if (session == null || session.getAttribute("user") == null) {
@@ -39,8 +35,10 @@ public class SessionFilter implements Filter {
 				response.sendRedirect("/");
 				return;
 			}
+
 		}else{
 			System.out.println("allowed "+url);
+
 		}
 		
 		chain.doFilter(req, res);
@@ -63,4 +61,5 @@ public class SessionFilter implements Filter {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

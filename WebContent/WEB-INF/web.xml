@@ -4,6 +4,7 @@
   <welcome-file-list>
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
+
 <filter>
 	<filter-name>SessionFilter</filter-name>
 	<filter-class>
@@ -19,6 +20,7 @@
         <filter-name>SessionFilter</filter-name>
         <url-pattern>/login.jsp</url-pattern>
     </filter-mapping>
+
     <filter>
         <filter-name>NoCacheFilter</filter-name>
         <filter-class>
@@ -30,7 +32,6 @@
         <url-pattern>/login, /faculty_addmarks</url-pattern>
     </filter-mapping>
    
-
   <servlet>
     <description></description>
     <display-name>UserController</display-name>
