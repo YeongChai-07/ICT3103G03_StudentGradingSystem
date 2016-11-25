@@ -29,6 +29,8 @@ public class UserDao {
 			preparedStatement.setDate(3, new java.sql.Date(user.getDob().getTime()));
 			preparedStatement.setString(4, user.getEmail());
 			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -42,6 +44,8 @@ public class UserDao {
 			// Parameters start with 1
 			preparedStatement.setInt(1, userId);
 			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,6 +64,8 @@ public class UserDao {
 			preparedStatement.setString(4, user.getEmail());
 			preparedStatement.setInt(5, user.getUserid());
 			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -80,6 +86,8 @@ public class UserDao {
 				user.setEmail(rs.getString("email"));
 				users.add(user);
 			}
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -102,6 +110,8 @@ public class UserDao {
 				user.setDob(rs.getDate("dob"));
 				user.setEmail(rs.getString("email"));
 			}
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

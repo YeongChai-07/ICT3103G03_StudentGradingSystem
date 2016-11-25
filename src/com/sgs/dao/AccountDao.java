@@ -31,6 +31,8 @@ public class AccountDao {
 				 //check id
 				  salt = rs.getString("security");
 			}
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -38,7 +40,7 @@ public class AccountDao {
 	}
 	public Integer checkPassword(String uname, String passw)
 	{
-		Account acc = new Account();
+		//Account acc = new Account();
 		String salt= "";
 		Integer role= null;
 		try {
@@ -52,15 +54,18 @@ public class AccountDao {
 				 //check id
 				 role = rs.getInt("fk_acc_role");
 			}
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return role;
+		//close preparedStatement connection here ?
 	}
 	
 	public Integer getAccountId(String uname, String passw)
 	{
-		Account acc = new Account();
+		//Account acc = new Account();
 		String salt= "";
 		Integer fk_part_acc= null;
 		try {
@@ -74,6 +79,10 @@ public class AccountDao {
 				 //check id
 				 fk_part_acc = rs.getInt("fk_part_acc");
 			}
+			
+			
+			preparedStatement.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -92,6 +101,8 @@ public class AccountDao {
 			acc.setPassword(rs.getString("password"));
 			acc.setSecurityCode(rs.getString("security"));
 			}
+			
+			preparedStatement.close();
 		}
 		catch(Exception e){}
 
@@ -106,6 +117,8 @@ public class AccountDao {
 			preparedStatement.setString(2, acc.getPassword());
 			preparedStatement.setString(3, acc.getUsername());
 			int i = preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
 		}
 		catch(Exception e){}
 	}
@@ -121,6 +134,8 @@ public class AccountDao {
 			if (rs.next()) { 
 				attempt = rs.getInt("login_attempt");
 			}
+			
+			preparedStatement.close();
 		}
 		catch(Exception e){}
 
@@ -135,6 +150,7 @@ public class AccountDao {
 			preparedStatement.setString(1, uname);
 			int i = preparedStatement.executeUpdate();
 			
+			preparedStatement.close();
 		}
 		catch(Exception e){}
 
@@ -145,6 +161,8 @@ public class AccountDao {
 			PreparedStatement preparedStatement = connection.prepareStatement("Update account set login_attempt = 4 where username=?");
 			preparedStatement.setString(1, uname);
 			int i = preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
 		}
 		catch(Exception e){}
 	}

@@ -59,6 +59,8 @@ public class FacultyDao {
 			    System.out.println(studentModule.getUsername());
 			    results.add(studentModule);
 			}
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
