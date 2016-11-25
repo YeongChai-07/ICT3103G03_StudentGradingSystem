@@ -22,6 +22,8 @@ public class LogDao {
 							+ "VALUES(?)");
 			preparedStatement.setString(1, "User " + username + " has logged in.");
 			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -35,6 +37,8 @@ public class LogDao {
 							+ "VALUES(?)");
 			preparedStatement.setString(1, "User " + username + " has failed to log in.");
 			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -48,6 +52,8 @@ public class LogDao {
 							+ "VALUES(?)");
 			preparedStatement.setString(1, "User " + username + " has changed the password.");
 			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -68,6 +74,8 @@ public class LogDao {
 					+ " graded student " + student 
 					+ " on " + module + " module.");
 			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
